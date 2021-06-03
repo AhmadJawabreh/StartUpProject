@@ -19,16 +19,16 @@ namespace API.Data
             .HasForeignKey(item => item.PublisherId)
             .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<AutherBook>()
-                .HasKey(item => new { item.AutherId, item.BookId });
+            modelBuilder.Entity<AuthorBook>()
+                .HasKey(item => new { item.AuthorId, item.BookId });
 
-             modelBuilder.Entity<AutherBook>()
-            .HasOne<Auther>(item => item.Auther)
+             modelBuilder.Entity<AuthorBook>()
+            .HasOne<Author>(item => item.Author)
             .WithMany(item => item.Books)
-            .HasForeignKey(item => item.AutherId);
+            .HasForeignKey(item => item.AuthorId);
 
 
-            modelBuilder.Entity<AutherBook>()
+            modelBuilder.Entity<AuthorBook>()
                 .HasOne<Book>(item => item.Book)
                 .WithMany(item => item.Authers)
                 .HasForeignKey(item => item.BookId);
@@ -39,8 +39,8 @@ namespace API.Data
 
         public DbSet<Book> Books { get; set; }
 
-        public DbSet<Auther> Authers { get; set; }
+        public DbSet<Author> Authors { get; set; }
 
-        public DbSet<AutherBook> AutherBook { get; set; }
+        public DbSet<AuthorBook> AuthorBook { get; set; }
     }
 }

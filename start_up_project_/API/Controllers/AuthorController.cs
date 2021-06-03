@@ -6,35 +6,37 @@ using System;
 namespace API.Controllers
 {
 
-    [Route("api/publisher")]
-    public class PublisherController : Controller
+    [Route("api/author")]
+    public class AuthorController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-       
-        public PublisherController(IUnitOfWork unitOfWork) 
+
+
+       public AuthorController(IUnitOfWork unitOfWork) 
         {
-            _unitOfWork = unitOfWork;
+            this._unitOfWork = unitOfWork;
         }
 
-        [HttpGet]
+
         [Route("all")]
-        public object GetAll() 
-        {
-            try {
-
-                return _unitOfWork.Publishers.GetAll();
-
-            }catch(Exception Error) {
-
-                Console.WriteLine(Error.ToString());
-                return NotFound();
-            }
-        }
-
-
         [HttpGet]
+        public object GetAll()
+        {
+            try
+            {
+               return  this._unitOfWork.Athuors.GetAll();
+            }
+            catch (Exception Error) 
+            {
+                Console.WriteLine(Error.ToString());
+                return BadRequest();
+            }
+        }
+
+
         [Route("details/{id}")]
-        public object Details([FromRoute] int id)
+        [HttpGet]
+        public object Details([FromRoute] long id)
         {
             try
             {
@@ -42,27 +44,27 @@ namespace API.Controllers
                 {
                     return BadRequest();
                 }
-                return _unitOfWork.Publishers.GetById(id);
+                return this._unitOfWork.Athuors.GetById(id);
             }
-            catch (Exception Error) {
+            catch (Exception Error)
+            {
                 Console.WriteLine(Error.ToString());
-                return NotFound();
+                return  BadRequest();
             }
         }
 
 
-        [HttpPost]
         [Route("add")]
-        public ActionResult Create([FromBody] Publisher publisher)
+        [HttpPost]
+        public IActionResult Add([FromBody] Author author)
         {
             try
             {
-                if (!ModelState.IsValid) 
+                if (!ModelState.IsValid)
                 {
                     return BadRequest();
                 }
-                _unitOfWork.Publishers.Insert(publisher);
-                _unitOfWork.Save();
+                this._unitOfWork.Athuors.Insert(author);
                 return Ok();
             }
             catch (Exception Error)
@@ -72,10 +74,9 @@ namespace API.Controllers
             }
         }
 
-
-        [HttpPut]
         [Route("update")]
-        public ActionResult Update([FromBody] Publisher publisher)
+        [HttpPut]
+        public IActionResult Update([FromBody] Author author)
         {
             try
             {
@@ -83,8 +84,7 @@ namespace API.Controllers
                 {
                     return BadRequest();
                 }
-                _unitOfWork.Publishers.Update(publisher);
-                _unitOfWork.Save();
+                this._unitOfWork.Athuors.Update(author);
                 return Ok();
             }
             catch (Exception Error)
@@ -94,10 +94,9 @@ namespace API.Controllers
             }
         }
 
-
-        [HttpDelete]
         [Route("delete/{id}")]
-        public ActionResult Delete([FromRoute] int id)
+        [HttpDelete]
+        public IActionResult Delete([FromRoute] long id)
         {
             try
             {
@@ -105,8 +104,7 @@ namespace API.Controllers
                 {
                     return BadRequest();
                 }
-                _unitOfWork.Publishers.Delete(id);
-                _unitOfWork.Save();
+                this._unitOfWork.Athuors.Delete(id);
                 return Ok();
             }
             catch (Exception Error)
@@ -115,6 +113,5 @@ namespace API.Controllers
                 return NotFound();
             }
         }
-
     }
 }

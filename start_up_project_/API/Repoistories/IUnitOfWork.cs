@@ -11,7 +11,7 @@ namespace API.Repoistories
     {
         IRepository<Publisher> Publishers { get; }
 
-        IRepository<Auther> Athuers { get; }
+        IRepository<Author> Athuors { get; }
 
         IRepository<Book> Books { get; }
         void Save();

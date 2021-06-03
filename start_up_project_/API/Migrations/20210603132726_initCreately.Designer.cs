@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210603104130_AddAutherBookTable_")]
-    partial class AddAutherBookTable_
+    [Migration("20210603132726_initCreately")]
+    partial class initCreately
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace API.Migrations
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Entities.Auther", b =>
+            modelBuilder.Entity("Entities.Author", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -35,26 +35,27 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authers");
+                    b.ToTable("Authors");
                 });
 
-            modelBuilder.Entity("Entities.AutherBook", b =>
+            modelBuilder.Entity("Entities.AuthorBook", b =>
                 {
-                    b.Property<long>("AutherId")
+                    b.Property<long>("AuthorId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("BookId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("AutherId", "BookId");
+                    b.HasKey("AuthorId", "BookId");
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("AutherBook");
+                    b.ToTable("AuthorBook");
                 });
 
             modelBuilder.Entity("Entities.Book", b =>
@@ -65,6 +66,7 @@ namespace API.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("PublisherId")
@@ -88,12 +90,14 @@ namespace API.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
@@ -104,11 +108,11 @@ namespace API.Migrations
                     b.ToTable("Publishers");
                 });
 
-            modelBuilder.Entity("Entities.AutherBook", b =>
+            modelBuilder.Entity("Entities.AuthorBook", b =>
                 {
-                    b.HasOne("Entities.Auther", "Auther")
+                    b.HasOne("Entities.Author", "Author")
                         .WithMany("Books")
-                        .HasForeignKey("AutherId")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -118,7 +122,7 @@ namespace API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Auther");
+                    b.Navigation("Author");
 
                     b.Navigation("Book");
                 });
@@ -134,7 +138,7 @@ namespace API.Migrations
                     b.Navigation("Publisher");
                 });
 
-            modelBuilder.Entity("Entities.Auther", b =>
+            modelBuilder.Entity("Entities.Author", b =>
                 {
                     b.Navigation("Books");
                 });

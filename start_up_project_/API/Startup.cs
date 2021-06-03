@@ -32,7 +32,7 @@ namespace API
         {
             services.AddControllers();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer("Server=localhost;Database=start_up_project;Trusted_Connection=True;"));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer("Server=localhost;Database=start_up_project1;Trusted_Connection=True;"));
 
             services.AddSwaggerGen(c =>
             {

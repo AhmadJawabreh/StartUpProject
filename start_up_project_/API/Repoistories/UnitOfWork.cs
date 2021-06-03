@@ -9,10 +9,11 @@ namespace API.Repoistories
 
         public IRepository<Publisher> _publishers;
         public IRepository<Book> _books;
-        public IRepository<Auther> _authers;
+        public IRepository<Author> _authors;
 
 
-        public UnitOfWork(ApplicationDbContext context) {
+        public UnitOfWork(ApplicationDbContext context) 
+        {
             this._context = context;
         }
 
@@ -37,11 +38,11 @@ namespace API.Repoistories
 
 
 
-        public IRepository<Auther> Athuers
+        public IRepository<Author> Athuors
         {
           get 
             {
-                return _authers ?? (_authers = new BaseRepository<Auther>(_context));
+                return _authors ?? (_authors = new BaseRepository<Author>(_context));
             }
 
         }

@@ -1,12 +1,16 @@
-﻿using API.Repoistories;
+﻿using Repoistories;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using Models;
+using Resources;
+using System.Collections.Generic;
 
 namespace API.Controllers
 {
 
-    [Route("api/publisher")]
+    [Route("publisher")]
+    [ApiController]
     public class PublisherController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -17,32 +21,50 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("all")]
         public object GetAll() 
         {
-            try {
+            try
+            {
 
-                return _unitOfWork.Publishers.GetAll();
+                List<PublisherResource> publisherResources = new List<PublisherResource>();
+
+                IEnumerable<Publisher> Publishers = _unitOfWork.Publishers.GetAll();
+
+                foreach (var Item in Publishers)
+                {
+                    publisherResources.Add(new PublisherResource
+                        {
+                            Id = Item.Id,
+                            Name = Item.Name,
+                            Email = Item.Email,
+                            Address = Item.Address,
+                            Phone = Item.Phone
+                        }
+                    );
+                    
+                }
+                return publisherResources;
 
             }catch(Exception Error) {
-
                 Console.WriteLine(Error.ToString());
                 return NotFound();
             }
         }
 
 
-        [HttpGet]
-        [Route("details/{id}")]
+        [HttpGet("{id}")]
         public object Details([FromRoute] int id)
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
-                return _unitOfWork.Publishers.GetById(id);
+                PublisherResource publisherResource = new PublisherResource();
+                Publisher publisher =  _unitOfWork.Publishers.GetById(id);
+                publisherResource.Id = publisher.Id;
+                publisherResource.Name = publisher.Name;
+                publisherResource.Email = publisher.Email;
+                publisherResource.Address = publisher.Address;
+                publisherResource.Phone = publisher.Phone;
+                return publisherResource;
             }
             catch (Exception Error) {
                 Console.WriteLine(Error.ToString());
@@ -52,15 +74,18 @@ namespace API.Controllers
 
 
         [HttpPost]
-        [Route("add")]
-        public ActionResult Create([FromBody] Publisher publisher)
+        public ActionResult Create([FromBody] PublisherModel PublisherModel)
         {
             try
             {
-                if (!ModelState.IsValid) 
-                {
-                    return BadRequest();
-                }
+                Publisher publisher = new Publisher();
+                publisher.Name = PublisherModel.FirstName.Trim() + PublisherModel.LastName.Trim();
+                publisher.Email = PublisherModel.Email.Trim();
+                publisher.Phone = PublisherModel.Phone.Trim();
+                publisher.Address = PublisherModel.StreetNumber.Trim() + ","+PublisherModel.StreetName.Trim() + "," 
+                                    + PublisherModel.CityName.Trim() + ","+ PublisherModel.StateName.Trim();
+
+               
                 _unitOfWork.Publishers.Insert(publisher);
                 _unitOfWork.Save();
                 return Ok();
@@ -74,15 +99,16 @@ namespace API.Controllers
 
 
         [HttpPut]
-        [Route("update")]
-        public ActionResult Update([FromBody] Publisher publisher)
+        public ActionResult Update([FromBody] PublisherModel PublisherModel)
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
+                Publisher publisher = _unitOfWork.Publishers.GetById(PublisherModel.Id);
+                publisher.Name = PublisherModel.FirstName.Trim() + PublisherModel.LastName.Trim();
+                publisher.Email = PublisherModel.Email.Trim();
+                publisher.Phone = PublisherModel.Phone.Trim();
+                publisher.Address = PublisherModel.StreetNumber.Trim() + "," + PublisherModel.StreetName.Trim() + ","
+                                    + PublisherModel.CityName.Trim() + "," + PublisherModel.StateName.Trim();
                 _unitOfWork.Publishers.Update(publisher);
                 _unitOfWork.Save();
                 return Ok();
@@ -95,16 +121,11 @@ namespace API.Controllers
         }
 
 
-        [HttpDelete]
-        [Route("delete/{id}")]
+        [HttpDelete("{id}")]
         public ActionResult Delete([FromRoute] int id)
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
                 _unitOfWork.Publishers.Delete(id);
                 _unitOfWork.Save();
                 return Ok();
@@ -115,6 +136,5 @@ namespace API.Controllers
                 return NotFound();
             }
         }
-
     }
 }

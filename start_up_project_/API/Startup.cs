@@ -1,20 +1,12 @@
-using API.DAL;
-using API.Data;
-using API.Repoistories;
+using Data;
+using Repoistories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace API
 {
@@ -32,8 +24,11 @@ namespace API
         {
             services.AddControllers();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer("Server=localhost;Database=start_up_project1;Trusted_Connection=True;"));
-
+            //services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer());
+            services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer("Server=localhost;Database=start_up_project;Trusted_Connection=True;",
+            b => 
+                b.MigrationsAssembly("DataAccessLayer")));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });

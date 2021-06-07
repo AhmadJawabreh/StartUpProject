@@ -33,10 +33,13 @@
     ".NETCoreApp,Version=v5.0": {
       "API/1.0.0": {
         "dependencies": {
+          "Contract": "1.0.0",
           "Microsoft.EntityFrameworkCore": "5.0.6",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.6",
           "Microsoft.EntityFrameworkCore.SqlServer.Design": "1.1.6",
+          "Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite": "5.0.6",
           "Microsoft.EntityFrameworkCore.Tools": "5.0.6",
+          "NetTopologySuite.Core": "1.15.3",
           "Swashbuckle.AspNetCore": "5.6.3",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "5.0.0.0",
@@ -221,7 +224,7 @@
           "System.Linq.Expressions.Reference": "5.0.0.0",
           "System.Linq.Parallel": "5.0.0.0",
           "System.Linq.Queryable": "5.0.0.0",
-          "System.Memory": "5.0.0.0",
+          "System.Memory.Reference": "5.0.0.0",
           "System.Net": "4.0.0.0",
           "System.Net.Http.Reference": "5.0.0.0",
           "System.Net.Http.Json": "5.0.0.0",
@@ -325,6 +328,17 @@
         },
         "compile": {
           "API.dll": {}
+        }
+      },
+      "GeoAPI.Core/1.7.5": {
+        "runtime": {
+          "lib/netstandard2.0/GeoAPI.dll": {
+            "assemblyVersion": "1.7.5.0",
+            "fileVersion": "1.7.5.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/GeoAPI.dll": {}
         }
       },
       "Humanizer.Core/2.8.26": {
@@ -522,6 +536,22 @@
         },
         "compile": {
           "lib/netstandard1.3/Microsoft.EntityFrameworkCore.SqlServer.Design.dll": {}
+        }
+      },
+      "Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite/5.0.6": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.6",
+          "NetTopologySuite": "2.1.0",
+          "NetTopologySuite.IO.SqlServerBytes": "2.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite.dll": {
+            "assemblyVersion": "5.0.6.0",
+            "fileVersion": "5.0.621.21307"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.1/Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite.dll": {}
         }
       },
       "Microsoft.EntityFrameworkCore.Tools/5.0.6": {
@@ -749,6 +779,39 @@
           "System.Threading.Timer": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0",
           "System.Xml.XDocument": "4.3.0"
+        }
+      },
+      "NetTopologySuite/2.1.0": {
+        "dependencies": {
+          "System.Memory": "4.5.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/NetTopologySuite.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/NetTopologySuite.dll": {}
+        }
+      },
+      "NetTopologySuite.Core/1.15.3": {
+        "dependencies": {
+          "GeoAPI.Core": "1.7.5"
+        }
+      },
+      "NetTopologySuite.IO.SqlServerBytes/2.0.0": {
+        "dependencies": {
+          "NetTopologySuite": "2.1.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/NetTopologySuite.IO.SqlServerBytes.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/NetTopologySuite.IO.SqlServerBytes.dll": {}
         }
       },
       "Newtonsoft.Json/10.0.1": {
@@ -1188,6 +1251,7 @@
           "System.Threading": "4.3.0"
         }
       },
+      "System.Memory/4.5.3": {},
       "System.Net.Http/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "3.1.0",
@@ -1726,6 +1790,29 @@
           "System.Threading": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0",
           "System.Xml.XmlDocument": "4.3.0"
+        }
+      },
+      "Contract/1.0.0": {
+        "dependencies": {
+          "DataAccessLayer": "1.0.0"
+        },
+        "runtime": {
+          "Contract.dll": {}
+        },
+        "compile": {
+          "Contract.dll": {}
+        }
+      },
+      "DataAccessLayer/1.0.0": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "5.0.6",
+          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.6"
+        },
+        "runtime": {
+          "DataAccessLayer.dll": {}
+        },
+        "compile": {
+          "DataAccessLayer.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
@@ -2826,7 +2913,7 @@
         },
         "compileOnly": true
       },
-      "System.Memory/5.0.0.0": {
+      "System.Memory.Reference/5.0.0.0": {
         "compile": {
           "System.Memory.dll": {}
         },
@@ -3422,6 +3509,13 @@
       "serviceable": false,
       "sha512": ""
     },
+    "GeoAPI.Core/1.7.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Dy/YkgZ1szgx+xbVWqMi+4++Fm6v3szbVdei1LKPRZ3meSvgNSMZxqhar5IAeaTj5LcUHLtLGdfyUtkjnYbg3A==",
+      "path": "geoapi.core/1.7.5",
+      "hashPath": "geoapi.core.1.7.5.nupkg.sha512"
+    },
     "Humanizer.Core/2.8.26": {
       "type": "package",
       "serviceable": true,
@@ -3505,6 +3599,13 @@
       "sha512": "sha512-nxdW1YfZtn3nbcFqIAbjo6vCbCNOx0g82qMv+9fTUsNTsW0KSENYc2pbjF3yO8ZqYdBjmx2gMfAGk6wjy5cldg==",
       "path": "microsoft.entityframeworkcore.sqlserver.design/1.1.6",
       "hashPath": "microsoft.entityframeworkcore.sqlserver.design.1.1.6.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite/5.0.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1FcaSJxoNWedic5m5fUt6y95f5U2hnN2bKXvISFgwsUtyYi/MC2H2qwohG3O8fHkSIpdCNP7m+LOHntVPiv26w==",
+      "path": "microsoft.entityframeworkcore.sqlserver.nettopologysuite/5.0.6",
+      "hashPath": "microsoft.entityframeworkcore.sqlserver.nettopologysuite.5.0.6.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore.Tools/5.0.6": {
       "type": "package",
@@ -3673,6 +3774,27 @@
       "sha512": "sha512-WcSp3+vP+yHNgS8EV5J7pZ9IRpeDuARBPN28by8zqff1wJQXm26PVU8L3/fYLBJVU7BtDyqNVWq2KlCVvSSR4A==",
       "path": "netstandard.library/1.6.1",
       "hashPath": "netstandard.library.1.6.1.nupkg.sha512"
+    },
+    "NetTopologySuite/2.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-v/eGXaJbPMy9kg6OK30mSuF0Ln6TXmWzPS8ojUMr/ecRiNpiZlEDXKq0CWIaE2Tc1uV2RZHLVPfF1QcoGs4ZYg==",
+      "path": "nettopologysuite/2.1.0",
+      "hashPath": "nettopologysuite.2.1.0.nupkg.sha512"
+    },
+    "NetTopologySuite.Core/1.15.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-PvO7lSWjzaazm1m9fYBZkxAtXSkF+t9jneGyyMxKQ/4lso2RzZWrBO0KWeA5Zp8IWoI1Ar/jTodYmC5Nbwo4xw==",
+      "path": "nettopologysuite.core/1.15.3",
+      "hashPath": "nettopologysuite.core.1.15.3.nupkg.sha512"
+    },
+    "NetTopologySuite.IO.SqlServerBytes/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-TuyMB0VSlRJx86UrWeQ+SGgOMudvhIL1qJJdWJw78nWsXIzKRP4ooQAhhhCCH7n8q1lvd0/NW3ByaLlHxxNSPQ==",
+      "path": "nettopologysuite.io.sqlserverbytes/2.0.0",
+      "hashPath": "nettopologysuite.io.sqlserverbytes.2.0.0.nupkg.sha512"
     },
     "Newtonsoft.Json/10.0.1": {
       "type": "package",
@@ -4031,6 +4153,13 @@
       "path": "system.linq.expressions/4.3.0",
       "hashPath": "system.linq.expressions.4.3.0.nupkg.sha512"
     },
+    "System.Memory/4.5.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3oDzvc/zzetpTKWMShs1AADwZjQ/36HnsufHRPcOjyRAAMLDlu2iD33MBI2opxnezcVUtXyqDXXjoFMOU9c7SA==",
+      "path": "system.memory/4.5.3",
+      "hashPath": "system.memory.4.5.3.nupkg.sha512"
+    },
     "System.Net.Http/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -4380,6 +4509,16 @@
       "sha512": "sha512-MYoTCP7EZ98RrANESW05J5ZwskKDoN0AuZ06ZflnowE50LTpbR5yRg3tHckTVm5j/m47stuGgCrCHWePyHS70Q==",
       "path": "system.xml.xmlserializer/4.3.0",
       "hashPath": "system.xml.xmlserializer.4.3.0.nupkg.sha512"
+    },
+    "Contract/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DataAccessLayer/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
       "type": "referenceassembly",
@@ -5296,7 +5435,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "System.Memory/5.0.0.0": {
+    "System.Memory.Reference/5.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""

@@ -2,7 +2,7 @@
 using Entities;
 namespace Repoistories
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IBookManager
     {
         private readonly ApplicationDbContext _context;
         public IRepository<Publisher> _publishers;

@@ -3,6 +3,7 @@ using Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using Models;
+using BusinessLogic.IManagers;
 using Resources;
 using System.Collections.Generic;
 
@@ -13,127 +14,77 @@ namespace API.Controllers
     [ApiController]
     public class PublisherController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IPublisherManager _PublisherManager;
        
-        public PublisherController(IUnitOfWork unitOfWork) 
+        public PublisherController(IPublisherManager PublisherManager) 
         {
-            _unitOfWork = unitOfWork;
+              this._PublisherManager = PublisherManager;
         }
 
         [HttpGet]
-        public object GetAll() 
+        public List<PublisherResource> GetAll() 
         {
             try
             {
-
-                List<PublisherResource> publisherResources = new List<PublisherResource>();
-
-                IEnumerable<Publisher> Publishers = _unitOfWork.Publishers.GetAll();
-
-                foreach (var Item in Publishers)
-                {
-                    publisherResources.Add(new PublisherResource
-                        {
-                            Id = Item.Id,
-                            Name = Item.Name,
-                            Email = Item.Email,
-                            Address = Item.Address,
-                            Phone = Item.Phone
-                        }
-                    );
-                    
-                }
-                return publisherResources;
-
-            }catch(Exception Error) {
-                Console.WriteLine(Error.ToString());
-                return NotFound();
+               return  this._PublisherManager.GetAll();
+            }
+            catch(Exception Error) {
+                throw Error;
             }
         }
 
 
-        [HttpGet("{id}")]
-        public object Details([FromRoute] int id)
+        [HttpGet("{Id}")]
+        public PublisherResource Details([FromRoute] int Id)
         {
             try
             {
-                PublisherResource publisherResource = new PublisherResource();
-                Publisher publisher =  _unitOfWork.Publishers.GetById(id);
-                publisherResource.Id = publisher.Id;
-                publisherResource.Name = publisher.Name;
-                publisherResource.Email = publisher.Email;
-                publisherResource.Address = publisher.Address;
-                publisherResource.Phone = publisher.Phone;
-                return publisherResource;
+               return this._PublisherManager.GetById(Id);
             }
             catch (Exception Error) {
-                Console.WriteLine(Error.ToString());
-                return NotFound();
+                throw Error;
             }
         }
 
 
         [HttpPost]
-        public ActionResult Create([FromBody] PublisherModel PublisherModel)
+        public void Create([FromBody] PublisherModel PublisherModel)
         {
             try
             {
-                Publisher publisher = new Publisher();
-                publisher.Name = PublisherModel.FirstName.Trim() + PublisherModel.LastName.Trim();
-                publisher.Email = PublisherModel.Email.Trim();
-                publisher.Phone = PublisherModel.Phone.Trim();
-                publisher.Address = PublisherModel.StreetNumber.Trim() + ","+PublisherModel.StreetName.Trim() + "," 
-                                    + PublisherModel.CityName.Trim() + ","+ PublisherModel.StateName.Trim();
-
-               
-                _unitOfWork.Publishers.Insert(publisher);
-                _unitOfWork.Save();
-                return Ok();
+                this._PublisherManager.Insert(PublisherModel);
             }
             catch (Exception Error)
             {
-                Console.WriteLine(Error.ToString());
-                return BadRequest();
+                throw Error;
             }
         }
 
 
         [HttpPut]
-        public ActionResult Update([FromBody] PublisherModel PublisherModel)
+        public void Update([FromBody] PublisherModel PublisherModel)
         {
             try
             {
-                Publisher publisher = _unitOfWork.Publishers.GetById(PublisherModel.Id);
-                publisher.Name = PublisherModel.FirstName.Trim() + PublisherModel.LastName.Trim();
-                publisher.Email = PublisherModel.Email.Trim();
-                publisher.Phone = PublisherModel.Phone.Trim();
-                publisher.Address = PublisherModel.StreetNumber.Trim() + "," + PublisherModel.StreetName.Trim() + ","
-                                    + PublisherModel.CityName.Trim() + "," + PublisherModel.StateName.Trim();
-                _unitOfWork.Publishers.Update(publisher);
-                _unitOfWork.Save();
-                return Ok();
+                this._PublisherManager.Update(PublisherModel);
             }
             catch (Exception Error)
             {
-                Console.WriteLine(Error.ToString());
-                return BadRequest();
+                throw Error;
             }
         }
 
 
-        [HttpDelete("{id}")]
-        public ActionResult Delete([FromRoute] int id)
+        [HttpDelete("{Id}")]
+        public void Delete([FromRoute] int Id)
         {
             try
             {
-                _unitOfWork.Publishers.Delete(id);
-                _unitOfWork.Save();
-                return Ok();
+                this._PublisherManager.Delete(Id);
             }
             catch (Exception Error)
             {
-                Console.WriteLine(Error.ToString());
-                return NotFound();
+                throw Error;
             }
         }
     }

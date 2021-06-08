@@ -1,130 +1,86 @@
-﻿using Repoistories;
-using Entities;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using Models;
 using Resources;
+using BusinessLogic.IManagers;
 using System.Collections.Generic;
 
 namespace API.Controllers
 {
 
-    [Route("author")]
+    [Route("Author")]
     [ApiController]
     public class AuthorController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IAuthorManager _authorManager;
 
 
-       public AuthorController(IUnitOfWork unitOfWork) 
+       public AuthorController(IAuthorManager authorManager) 
        {
-            this._unitOfWork = unitOfWork;
+            this._authorManager = authorManager;
        }
 
         [HttpGet]
-        public object GetAll()
+        public List<AuthorResource> GetAll()
         {
             try
             {
-                List<AuthorResource> AuthorResourcess = new List<AuthorResource>();
-                IEnumerable<Author> Authors =   this._unitOfWork.Athuors.GetAll();
-
-                foreach (var Author in Authors) 
-                {
-                    AuthorResourcess.Add(
-                        new AuthorResource 
-                        { 
-                            Id = Author.Id,
-                            Email = Author.Email,
-                            FullName = Author.Name,
-                            DateOfBirth = Author.DateOfBirth
-                        
-                        }
-                      );
-                }
-                return AuthorResourcess;
-
+                return this._authorManager.GetAll();
             }
-            catch (Exception Error) 
-            {
-                Console.WriteLine(Error.ToString());
-                return BadRequest();
+            catch (Exception Error) {
+                throw Error;
             }
         }
        
-        [HttpGet("{id}")]
-        public object Details([FromRoute] long id)
+        [HttpGet("{Id}")]
+        public AuthorResource Details([FromRoute] long Id)
         {
             try
             {
-                AuthorResource authorResource = new AuthorResource();
-                Author author = this._unitOfWork.Athuors.GetById(id);
-                authorResource.Id = author.Id;
-                authorResource.FullName = author.Name;
-                authorResource.Email = author.Email;
-                authorResource.DateOfBirth = author.DateOfBirth;
-                return authorResource;
+                return this._authorManager.GetById(Id);
             }
             catch (Exception Error)
             {
-                Console.WriteLine(Error.ToString());
-                return  BadRequest();
+                throw Error;
             }
         }
 
         [HttpPost]
-        public IActionResult Add([FromBody] AuthorModel authorModel)
+        public void Add([FromBody] AuthorModel authorModel)
         {
             try
             {
-                Author author = new Author();
-                author.Email = authorModel.Email;
-                author.DateOfBirth = authorModel.DateOfBirth;
-                author.Name = authorModel.FirstName.Trim() + authorModel.LastName.Trim();
-                this._unitOfWork.Athuors.Insert(author);
-                this._unitOfWork.Save();
-                return Ok();
+                this._authorManager.Insert(authorModel);
             }
             catch (Exception Error)
             {
-                Console.WriteLine(Error.ToString());
-                return BadRequest();
+                throw Error;
             }
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] AuthorModel AuthorModel)
+        public void Update([FromBody] AuthorModel authorModel)
         {
             try
             {
-                Author Author = _unitOfWork.Athuors.GetById(AuthorModel.Id);
-                Author.Email = AuthorModel.Email ?? "";
-                Author.DateOfBirth = AuthorModel.DateOfBirth;
-                Author.Name = AuthorModel.FirstName.Trim() + AuthorModel.LastName.Trim();
-                this._unitOfWork.Athuors.Update(Author);
-                this._unitOfWork.Save();
-                return Ok();
+                this._authorManager.Update(authorModel);
             }
             catch (Exception Error)
             {
-                Console.WriteLine(Error.ToString());
-                return BadRequest();
+                throw Error;
             }
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete([FromRoute] long id)
+        [HttpDelete("{Id}")]
+        public void Delete([FromRoute] long Id)
         {
             try
             {
-                this._unitOfWork.Athuors.Delete(id);
-                this._unitOfWork.Save();
-                return Ok();
+                this._authorManager.Delete(Id);
             }
             catch (Exception Error)
             {
-                Console.WriteLine(Error.ToString());
-                return NotFound();
+                throw Error;
             }
         }
     }

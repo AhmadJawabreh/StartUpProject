@@ -23,7 +23,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IBookManager, UnitOfWork>();
             //services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer());
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer("Server=localhost;Database=start_up_project;Trusted_Connection=True;",

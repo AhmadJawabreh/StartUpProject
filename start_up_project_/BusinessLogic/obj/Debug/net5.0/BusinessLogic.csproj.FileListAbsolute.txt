@@ -10,3 +10,8 @@ C:\Users\USER\Desktop\StartUpProject\start_up_project_\BusinessLogic\obj\Debug\n
 C:\Users\USER\Desktop\StartUpProject\start_up_project_\BusinessLogic\obj\Debug\net5.0\BusinessLogic.dll
 C:\Users\USER\Desktop\StartUpProject\start_up_project_\BusinessLogic\obj\Debug\net5.0\ref\BusinessLogic.dll
 C:\Users\USER\Desktop\StartUpProject\start_up_project_\BusinessLogic\obj\Debug\net5.0\BusinessLogic.pdb
+C:\Users\USER\Desktop\StartUpProject\start_up_project_\BusinessLogic\bin\Debug\net5.0\Contract.dll
+C:\Users\USER\Desktop\StartUpProject\start_up_project_\BusinessLogic\bin\Debug\net5.0\DataAccessLayer.dll
+C:\Users\USER\Desktop\StartUpProject\start_up_project_\BusinessLogic\bin\Debug\net5.0\Contract.pdb
+C:\Users\USER\Desktop\StartUpProject\start_up_project_\BusinessLogic\bin\Debug\net5.0\DataAccessLayer.pdb
+C:\Users\USER\Desktop\StartUpProject\start_up_project_\BusinessLogic\obj\Debug\net5.0\BusinessLogic.csproj.CopyComplete

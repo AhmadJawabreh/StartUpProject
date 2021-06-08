@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using BusinessLogic.IManagers;
+using BusinessLogic;
 
 namespace API
 {
@@ -23,8 +25,10 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<IBookManager, UnitOfWork>();
-            //services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer());
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IAuthorManager, AuthorManager>();
+            services.AddScoped<IBookManager, BookManager>();
+            services.AddScoped<IPublisherManager, PublisherManager>();
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer("Server=localhost;Database=start_up_project;Trusted_Connection=True;",
             b => 

@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.IManagers;
 using BusinessLogic.Mappers;
+using BusinessLogic.Parsers;
 using Entities;
 using Models;
 using Repoistories;
@@ -9,7 +10,7 @@ using System.Collections.Generic;
 
 namespace BusinessLogic
 {
-    class PublisherManager : IPublisherManager
+    public class PublisherManager : IPublisherManager
     {
         private readonly IUnitOfWork _UnitOfWork;
 
@@ -31,11 +32,15 @@ namespace BusinessLogic
             }   
         }
 
-        public PublisherResource GetById(long id)
+        public PublisherResource GetById(long Id)
         {
             try
             {
-                Publisher publisher = _UnitOfWork.Publishers.GetById(id);
+                Publisher publisher = _UnitOfWork.Publishers.GetById(Id);
+                if (publisher == null) 
+                {
+                    return null;
+                }
                 return PublisherMapper.ConvertToPublisherResource(publisher);
             }
             catch (Exception Error) 
@@ -64,14 +69,19 @@ namespace BusinessLogic
         {
             try
             {
-                Publisher CurrentPublisher = _UnitOfWork.Publishers.GetById(publisherModel.Id);
-                Publisher NewPublisher = 
+                Publisher OldPublisherData = _UnitOfWork.Publishers.GetById(publisherModel.Id);
+                if (OldPublisherData == null)
+                {
+                    return;
+                }
+                Publisher NewPublisherData = PublisherMapper.ConvertToPublisher(publisherModel);
+                Publisher publisher = PublisherParser.Parser(OldPublisherData, NewPublisherData);
                 _UnitOfWork.Publishers.Update(publisher);
                 _UnitOfWork.Save();
             }
             catch (Exception Error)
             {
-                Console.WriteLine(Error.ToString());
+                throw Error;
             }
         }
 
@@ -84,7 +94,7 @@ namespace BusinessLogic
             }
             catch (Exception Error)
             {
-                Console.WriteLine(Error.ToString());
+                throw Error;
             }
         }
     }

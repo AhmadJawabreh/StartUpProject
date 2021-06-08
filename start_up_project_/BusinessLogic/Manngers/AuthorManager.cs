@@ -9,10 +9,11 @@ using System.Collections.Generic;
 
 namespace BusinessLogic
 {
-    class AuthorManager : IAuthorManager
+    public class AuthorManager : IAuthorManager
     {
         private readonly IUnitOfWork _unitOfWork;
-        public AuthorManager(IUnitOfWork unitOfWork) {
+        public AuthorManager(IUnitOfWork unitOfWork) 
+        {
             this._unitOfWork = unitOfWork;
         }
 
@@ -25,7 +26,7 @@ namespace BusinessLogic
             }
             catch (Exception Error)
             {
-                throw Error;
+                return null;
             }
         }
 
@@ -34,11 +35,13 @@ namespace BusinessLogic
             try
             {
                 Author author = this._unitOfWork.Athuors.GetById(Id);
+                if(author == null)
+                    return null;
                 return AuthorMapper.ConvertToAuthorResources(author);
             }
             catch (Exception Error) 
             {
-                throw Error;
+                return null;   
             }
         }
 

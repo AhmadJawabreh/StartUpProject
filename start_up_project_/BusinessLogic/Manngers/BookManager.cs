@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace BusinessLogic
 {
-    class BookManager : IBookManager
+    public class BookManager : IBookManager
     {
         private readonly IUnitOfWork _unitOfWork;
         public BookManager(IUnitOfWork unitOfWork) 
@@ -76,6 +76,7 @@ namespace BusinessLogic
             try
             {
                 _unitOfWork.Books.Delete(Id);
+                this._unitOfWork.Save();
             }
             catch (Exception Error)
             {

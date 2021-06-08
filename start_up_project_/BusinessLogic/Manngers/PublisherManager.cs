@@ -1,12 +1,12 @@
 ﻿using BusinessLogic.IManagers;
 using BusinessLogic.Mappers;
-using BusinessLogic.Parsers;
 using Entities;
 using Models;
 using Repoistories;
 using Resources;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BusinessLogic
 {
@@ -19,12 +19,12 @@ namespace BusinessLogic
             this._UnitOfWork = UnitOfWork;
         }
 
-        public List<PublisherResource> GetAll()
+        public async Task<List<PublisherResource>> GetAllAsync()
         {
             try
             {
-                IEnumerable<Publisher> Publishers = _UnitOfWork.Publishers.GetAll();
-                return PublisherMapper.ConvertToListOfPublisherResources(Publishers);
+                IEnumerable<Publisher> Publishers = await _UnitOfWork.Publishers.GetAll();
+                return PublisherMapper.ToResources(Publishers);
             }
             catch (Exception Error)
             {
@@ -32,16 +32,16 @@ namespace BusinessLogic
             }   
         }
 
-        public PublisherResource GetById(long Id)
+        public async Task<PublisherResource> GetByIdAsync(long Id)
         {
             try
             {
-                Publisher publisher = _UnitOfWork.Publishers.GetById(Id);
+                Publisher publisher = await _UnitOfWork.Publishers.GetById(Id);
                 if (publisher == null) 
                 {
                     return null;
                 }
-                return PublisherMapper.ConvertToPublisherResource(publisher);
+                return PublisherMapper.ToResource(publisher);
             }
             catch (Exception Error) 
             {
@@ -51,13 +51,15 @@ namespace BusinessLogic
 
         
 
-        public void Insert(PublisherModel publisherModel)
+        public async Task<PublisherResource> InsertAsync(PublisherModel publisherModel)
         {
             try
             {
-                Publisher publisher = PublisherMapper.ConvertToPublisher(publisherModel);
-                _UnitOfWork.Publishers.Insert(publisher);
-                _UnitOfWork.Save();
+                Publisher publisher = new Publisher();
+                publisher = PublisherMapper.ToEntity(publisher, publisherModel);
+                await _UnitOfWork.Publishers.Insert(publisher);
+                await _UnitOfWork.Save();
+                return PublisherMapper.ToResource(publisher);
             }
             catch (Exception Error) 
             {
@@ -65,19 +67,19 @@ namespace BusinessLogic
             }
         }
 
-        public void Update(PublisherModel publisherModel)
+        public async Task<PublisherResource> UpdateAsync(PublisherModel publisherModel)
         {
             try
             {
-                Publisher OldPublisherData = _UnitOfWork.Publishers.GetById(publisherModel.Id);
-                if (OldPublisherData == null)
+                Publisher publisher = await _UnitOfWork.Publishers.GetById(publisherModel.Id);
+                if (publisher == null)
                 {
-                    return;
-                }
-                Publisher NewPublisherData = PublisherMapper.ConvertToPublisher(publisherModel);
-                Publisher publisher = PublisherParser.Parser(OldPublisherData, NewPublisherData);
+                    return null;
+                }       
+                 publisher = PublisherMapper.ToEntity(publisher, publisherModel);
                 _UnitOfWork.Publishers.Update(publisher);
-                _UnitOfWork.Save();
+                await _UnitOfWork.Save();
+                return PublisherMapper.ToResource(publisher);
             }
             catch (Exception Error)
             {
@@ -85,12 +87,12 @@ namespace BusinessLogic
             }
         }
 
-        public void Delete(long Id)
+        public async Task DeleteAsync(long Id)
         {
             try
             {
-                _UnitOfWork.Publishers.Delete(Id);
-                _UnitOfWork.Save();
+               await _UnitOfWork.Publishers.Delete(Id);
+               await  _UnitOfWork.Save();
             }
             catch (Exception Error)
             {

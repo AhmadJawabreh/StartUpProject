@@ -6,8 +6,9 @@ using System.Collections.Generic;
 namespace BusinessLogic.Mappers
 {
     class PublisherMapper
-    {
-        public static List<PublisherResource> ConvertToListOfPublisherResources(IEnumerable<Publisher> Publishers)
+    {    
+       
+        public static List<PublisherResource> ToResources(IEnumerable<Publisher> Publishers)
         {
             List<PublisherResource> publisherResources = new List<PublisherResource>();
             foreach (var Item in Publishers)
@@ -25,7 +26,7 @@ namespace BusinessLogic.Mappers
             return publisherResources;
         }
 
-        public static PublisherResource ConvertToPublisherResource(Publisher publisher) 
+        public static PublisherResource ToResource(Publisher publisher) 
         {
             PublisherResource publisherResource = new PublisherResource();
             publisherResource.Id = publisher.Id;
@@ -36,9 +37,8 @@ namespace BusinessLogic.Mappers
             return publisherResource;
         }
 
-        public static Publisher ConvertToPublisher(PublisherModel publisherModel ) 
+        public static Publisher ToEntity(Publisher publisher,PublisherModel publisherModel)
         {
-            Publisher publisher = new Publisher();
             publisher.Name = publisherModel.FirstName.Trim() + publisherModel.LastName.Trim();
             publisher.Email = publisherModel.Email.Trim();
             publisher.Phone = publisherModel.Phone.Trim();

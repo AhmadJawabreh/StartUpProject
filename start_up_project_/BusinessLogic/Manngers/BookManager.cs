@@ -6,6 +6,7 @@ using Repoistories;
 using Resources;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BusinessLogic
 {
@@ -17,12 +18,12 @@ namespace BusinessLogic
             this._unitOfWork = unitOfWork;
         }
 
-        public List<BookResource> GetAll()
+        public async Task<List<BookResource>> GetAllAsync()
         {
             try
             {
-                IEnumerable<Book> Books = _unitOfWork.Books.GetAll();
-                return BookMapper.ConvertToListOfBookResources(Books);
+                IEnumerable<Book> Books = await _unitOfWork.Books.GetAll();
+                return BookMapper.ToResources(Books);
             }
             catch (Exception Error)
             {
@@ -30,12 +31,12 @@ namespace BusinessLogic
             }
         }
 
-        public BookResource GetById(long Id)
+        public async Task<BookResource> GetByIdAsync(long Id)
         {
             try
             {  
-                Book book = _unitOfWork.Books.GetById(Id);
-                return BookMapper.ConvertToBookResource(book);
+                Book book = await _unitOfWork.Books.GetById(Id);
+                return BookMapper.ToResource(book);
             }
             catch (Exception Error)
             {
@@ -43,13 +44,16 @@ namespace BusinessLogic
             }
         }
 
-        public void Insert(BookModel bookModel)
+        public async Task<BookResource> InsertAsync(BookModel bookModel)
         {
             try
             {
-                Book book = BookMapper.ConvertToBook(bookModel);
-                _unitOfWork.Books.Insert(book);
-                this._unitOfWork.Save();          
+                Book book = new Book();
+                book = BookMapper.ToEntity(book, bookModel);
+                await  _unitOfWork.Books.Insert(book);
+                await  this._unitOfWork.Save();
+                return BookMapper.ToResource(book);
+                
             }
             catch (Exception Error)
             {
@@ -57,13 +61,16 @@ namespace BusinessLogic
             }
         }
 
-        public void Update(BookModel bookModel)
+        public async Task<BookResource> UpdateAsync(BookModel bookModel)
         {
             try
             {
-                Book book = BookMapper.ConvertToBook(bookModel);
+                Book book =await  _unitOfWork.Books.GetById(bookModel.Id);
+                book = BookMapper.ToEntity(book, bookModel);
                 _unitOfWork.Books.Update(book);
-                this._unitOfWork.Save();
+                await this._unitOfWork.Save();
+                return BookMapper.ToResource(book);
+
             }
             catch (Exception Error) 
             {
@@ -71,12 +78,12 @@ namespace BusinessLogic
             }
         }
 
-        public void Delete(long Id)
+        public async Task Delete(long Id)
         {
             try
             {
-                _unitOfWork.Books.Delete(Id);
-                this._unitOfWork.Save();
+                await _unitOfWork.Books.Delete(Id);
+                await this._unitOfWork.Save();
             }
             catch (Exception Error)
             {

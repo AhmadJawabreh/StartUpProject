@@ -7,7 +7,7 @@ namespace BusinessLogic.Mappers
 {
     public class BookMapper
     {
-        public static List<BookResource> ConvertToListOfBookResources(IEnumerable<Book> books)
+        public static List<BookResource> ToResources(IEnumerable<Book> books)
         {
             List<BookResource> BookResourcess = new List<BookResource>();
             foreach (var Item in books)
@@ -25,7 +25,7 @@ namespace BusinessLogic.Mappers
         }
 
 
-        public static BookResource ConvertToBookResource(Book book) 
+        public static BookResource ToResource(Book book) 
         {
             BookResource bookResource = new BookResource();
             bookResource.Id = book.Id;
@@ -34,10 +34,9 @@ namespace BusinessLogic.Mappers
             return bookResource;
         }
 
-
-        public static Book ConvertToBook(BookModel bookModel)
+ 
+        public static Book ToEntity(Book book, BookModel bookModel)
         {
-            Book book = new Book();
             book.Name = bookModel.Name;
             book.ReleaseDate = bookModel.ReleaseDate;
             book.Authors = bookModel.Auhthors;

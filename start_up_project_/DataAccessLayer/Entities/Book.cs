@@ -11,8 +11,8 @@ namespace Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
-        [MinLength(15,ErrorMessage = "Book Name is Less than 15")]
-        [MaxLength(35,ErrorMessage = "Book Name is greater than 35")]
+        [MinLength(15, ErrorMessage = "Book Name is Less than 15")]
+        [MaxLength(35, ErrorMessage = "Book Name is greater than 35")]
         public string Name { get; set; }
 
         public DateTime ReleaseDate { get; set; }
@@ -22,6 +22,5 @@ namespace Entities
         public Publisher Publisher { get; set; }
 
         public IEnumerable<Author> Authors { get; set; }
-
     }
 }

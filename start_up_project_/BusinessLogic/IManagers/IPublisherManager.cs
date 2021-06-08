@@ -10,10 +10,10 @@ namespace BusinessLogic.IManagers
 {
     public interface IPublisherManager
     {
-        public List<PublisherResource> GetAll();
-        public PublisherResource GetById(long Id);
-        public void Insert(PublisherModel publisherModel);
-        public void Update(PublisherModel publisherModel);
-        public void Delete(long Id);
+        public Task<List<PublisherResource>> GetAllAsync();
+        public Task<PublisherResource> GetByIdAsync(long Id);
+        public Task<PublisherResource> InsertAsync(PublisherModel publisherModel);
+        public Task<PublisherResource> UpdateAsync(PublisherModel publisherModel);
+        public Task DeleteAsync(long Id);
     }
 }

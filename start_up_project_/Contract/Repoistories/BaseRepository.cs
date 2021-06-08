@@ -1,7 +1,9 @@
 ﻿using Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
+
+
 namespace Repoistories
 {
     public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class
@@ -10,36 +12,38 @@ namespace Repoistories
 
         private readonly DbSet<TEntity> dbSet;
 
-
-        public BaseRepository(ApplicationDbContext context) {
+        public BaseRepository(ApplicationDbContext context)
+        {
             this._context = context;
             this.dbSet = context.Set<TEntity>();
         }
 
-        public void Delete(long id)
+        public async Task Delete(long id)
         {
-            TEntity entity = this.dbSet.Find(id);
+            TEntity entity = await this.dbSet.FindAsync(id);
             this.dbSet.Remove(entity);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public async Task<IEnumerable<TEntity>> GetAll()
         {
-            return this.dbSet.ToList();
+            return await this.dbSet.ToListAsync();
         }
 
-        public TEntity GetById(long id)
+        public async Task<TEntity> GetById(long id)
         {
-            return this.dbSet.Find(id);
+            return await this.dbSet.FindAsync(id);
         }
 
-        public void Insert(TEntity entity)
+        public async Task<TEntity> Insert(TEntity entity)
         {
-            this.dbSet.Add(entity);
+            await this.dbSet.AddAsync(entity);
+            return entity;
         }
 
-        public void Update(TEntity entity)
+        public TEntity Update(TEntity entity)
         {
             this.dbSet.Update(entity);
+            return entity;
         }
     }
 }

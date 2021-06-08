@@ -1,14 +1,13 @@
 ﻿using Entities;
+using System.Threading.Tasks;
 
 namespace Repoistories
 {
     public interface IUnitOfWork
     {
-        IRepository<Publisher> Publishers { get; }
-
-        IRepository<Author> Athuors { get; }
-
-        IRepository<Book> Books { get; }
-        void Save();
+        public IRepository<Publisher> Publishers { get; }
+        public IRepository<Author> Athuors { get; }
+        public IRepository<Book> Books { get; }
+        public Task Save();
     }
 }

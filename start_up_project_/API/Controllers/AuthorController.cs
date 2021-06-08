@@ -4,40 +4,40 @@ using Models;
 using Resources;
 using BusinessLogic.IManagers;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-
     [Route("Author")]
     [ApiController]
     public class AuthorController : Controller
     {
         private readonly IAuthorManager _authorManager;
 
-
-       public AuthorController(IAuthorManager authorManager) 
-       {
+        public AuthorController(IAuthorManager authorManager)
+        {
             this._authorManager = authorManager;
-       }
+        }
 
         [HttpGet]
-        public List<AuthorResource> GetAll()
+        public async Task<List<AuthorResource>> GetAllAsync()
         {
             try
             {
-                return this._authorManager.GetAll();
+                return await this._authorManager.GetAllAsync();
             }
-            catch (Exception Error) {
+            catch (Exception Error)
+            {
                 throw Error;
             }
         }
-       
+
         [HttpGet("{Id}")]
-        public AuthorResource Details([FromRoute] long Id)
+        public async Task<AuthorResource> DetailsAsync([FromRoute] long Id)
         {
             try
             {
-                return this._authorManager.GetById(Id);
+                return await this._authorManager.GetByIdAsync(Id);
             }
             catch (Exception Error)
             {
@@ -46,11 +46,11 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public void Add([FromBody] AuthorModel authorModel)
+        public async Task<AuthorResource> AddAsync([FromBody] AuthorModel authorModel)
         {
             try
             {
-                this._authorManager.Insert(authorModel);
+                return await this._authorManager.InsertAsync(authorModel);
             }
             catch (Exception Error)
             {
@@ -59,11 +59,11 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public void Update([FromBody] AuthorModel authorModel)
+        public async Task<AuthorResource> Update([FromBody] AuthorModel authorModel)
         {
             try
             {
-                this._authorManager.Update(authorModel);
+                return await this._authorManager.UpdateAsync(authorModel);
             }
             catch (Exception Error)
             {
@@ -72,11 +72,12 @@ namespace API.Controllers
         }
 
         [HttpDelete("{Id}")]
-        public void Delete([FromRoute] long Id)
+        public async Task<IActionResult> DeleteAsync([FromRoute] long Id)
         {
             try
             {
-                this._authorManager.Delete(Id);
+                await this._authorManager.DeleteAsync(Id);
+                return NoContent();
             }
             catch (Exception Error)
             {

@@ -1,72 +1,71 @@
-﻿using Repoistories;
-using Entities;
+﻿using BusinessLogic.IManagers;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using Models;
-using BusinessLogic.IManagers;
 using Resources;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
+   
 
     [Route("publisher")]
     [ApiController]
     public class PublisherController : Controller
     {
         private readonly IPublisherManager _PublisherManager;
-       
-        public PublisherController(IPublisherManager PublisherManager) 
+
+        public PublisherController(IPublisherManager PublisherManager)
         {
-              this._PublisherManager = PublisherManager;
+            this._PublisherManager = PublisherManager;
         }
 
         [HttpGet]
-        public List<PublisherResource> GetAll() 
+        public async Task<List<PublisherResource>> GetAllAsync()
         {
             try
             {
-               return  this._PublisherManager.GetAll();
+                return await this._PublisherManager.GetAllAsync();
             }
-            catch(Exception Error) {
+            catch (Exception Error)
+            {
                 throw Error;
             }
         }
-
 
         [HttpGet("{Id}")]
-        public PublisherResource Details([FromRoute] int Id)
+        public async Task<PublisherResource> Details([FromRoute] int Id)
         {
             try
             {
-               return this._PublisherManager.GetById(Id);
+                return await this._PublisherManager.GetByIdAsync(Id);
             }
-            catch (Exception Error) {
+            catch (Exception Error)
+            {
                 throw Error;
             }
         }
-
 
         [HttpPost]
-        public void Create([FromBody] PublisherModel PublisherModel)
+        public async Task<PublisherResource> Create([FromBody] PublisherModel PublisherModel)
         {
             try
             {
-                this._PublisherManager.Insert(PublisherModel);
+                return await this._PublisherManager.InsertAsync(PublisherModel);
             }
             catch (Exception Error)
             {
                 throw Error;
             }
         }
-
 
         [HttpPut]
-        public void Update([FromBody] PublisherModel PublisherModel)
+        public async Task<PublisherResource> Update([FromBody] PublisherModel PublisherModel)
         {
             try
             {
-                this._PublisherManager.Update(PublisherModel);
+                return await this._PublisherManager.UpdateAsync(PublisherModel);
             }
             catch (Exception Error)
             {
@@ -74,13 +73,13 @@ namespace API.Controllers
             }
         }
 
-
         [HttpDelete("{Id}")]
-        public void Delete([FromRoute] int Id)
+        public async Task<IActionResult> Delete([FromRoute] int Id)
         {
             try
             {
-                this._PublisherManager.Delete(Id);
+                await this._PublisherManager.DeleteAsync(Id);
+                return NoContent();
             }
             catch (Exception Error)
             {

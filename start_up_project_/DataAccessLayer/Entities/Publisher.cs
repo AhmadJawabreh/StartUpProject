@@ -23,6 +23,6 @@ namespace Entities
         [EmailAddress]
         public String? Email { get; set; }
 
-        public IEnumerable<Book> Books { get; set;}
+        public IEnumerable<Book> Books { get; set; }
     }
 }

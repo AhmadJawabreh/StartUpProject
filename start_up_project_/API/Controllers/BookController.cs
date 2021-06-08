@@ -1,43 +1,45 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessLogic.IManagers;
+using Microsoft.AspNetCore.Mvc;
 using Models;
+using Resources;
 using System;
 using System.Collections.Generic;
-using Resources;
-using BusinessLogic.IManagers;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
+    
 
     [Route("Book")]
     [ApiController]
     public class BookController : Controller
     {
         private readonly IBookManager _bookManager;
-        public BookController(IBookManager bookManager) 
+
+        public BookController(IBookManager bookManager)
         {
             this._bookManager = bookManager;
-        } 
-
+        }
 
         [HttpGet]
-        public List<BookResource> GetAllBooks()
+        public async Task<List<BookResource>> GetAllBooks()
         {
             try
             {
-                return _bookManager.GetAll() ;
+                return await _bookManager.GetAllAsync();
             }
-            catch (Exception Error) 
+            catch (Exception Error)
             {
                 throw Error;
             }
         }
 
         [HttpGet("{Id}")]
-        public object Details([FromRoute] int Id)
+        public async Task<object> Details([FromRoute] int Id)
         {
             try
             {
-                return _bookManager.GetById(Id);
+                return await _bookManager.GetByIdAsync(Id);
             }
             catch (Exception Error)
             {
@@ -46,11 +48,11 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public void Create([FromBody] BookModel bookModel)
+        public async Task<BookResource> Create([FromBody] BookModel bookModel)
         {
             try
             {
-                _bookManager.Insert(bookModel);
+                return await _bookManager.InsertAsync(bookModel);
             }
             catch (Exception Error)
             {
@@ -59,26 +61,25 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public void Update([FromBody] BookModel bookModel) 
+        public async Task<BookResource> Update([FromBody] BookModel bookModel)
         {
             try
             {
-                _bookManager.Update(bookModel);
+                return await _bookManager.UpdateAsync(bookModel);
             }
-            catch (Exception Error) 
+            catch (Exception Error)
             {
                 throw Error;
             }
-
-        
         }
 
         [HttpDelete("{Id}")]
-        public void Delete([FromRoute] int Id) 
+        public async Task<IActionResult> Delete([FromRoute] int Id)
         {
             try
             {
-                 _bookManager.Delete(Id);
+                await _bookManager.Delete(Id);
+                return NoContent();
             }
             catch (Exception Error)
             {

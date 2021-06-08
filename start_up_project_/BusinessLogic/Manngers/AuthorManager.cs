@@ -6,6 +6,7 @@ using Repoistories;
 using Resources;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BusinessLogic
 {
@@ -17,12 +18,12 @@ namespace BusinessLogic
             this._unitOfWork = unitOfWork;
         }
 
-        public List<AuthorResource> GetAll()
+        public async Task<List<AuthorResource>> GetAllAsync()
         {
             try
             {
-                IEnumerable<Author> authors = this._unitOfWork.Athuors.GetAll();
-                return AuthorMapper.ConvertToListOfAuthorResources(authors);
+                IEnumerable<Author> authors = await this._unitOfWork.Athuors.GetAll();
+                return AuthorMapper.ToResources(authors);
             }
             catch (Exception Error)
             {
@@ -30,14 +31,14 @@ namespace BusinessLogic
             }
         }
 
-        public AuthorResource GetById(long Id)
+        public async Task<AuthorResource> GetByIdAsync(long Id)
         {
             try
             {
-                Author author = this._unitOfWork.Athuors.GetById(Id);
+                Author author = await this._unitOfWork.Athuors.GetById(Id);
                 if(author == null)
                     return null;
-                return AuthorMapper.ConvertToAuthorResources(author);
+                return AuthorMapper.ToResource(author);
             }
             catch (Exception Error) 
             {
@@ -45,13 +46,15 @@ namespace BusinessLogic
             }
         }
 
-        public void Insert(AuthorModel authorModel)
+        public async Task<AuthorResource> InsertAsync(AuthorModel authorModel)
         {
             try
             {
-                Author author = AuthorMapper.ConvertToAuthorModel(authorModel);
-                this._unitOfWork.Athuors.Insert(author);
-                this._unitOfWork.Save();
+                Author author = new Author();
+                author = AuthorMapper.ToEntity(author, authorModel);
+                await this._unitOfWork.Athuors.Insert(author);
+                await this._unitOfWork.Save();
+                return AuthorMapper.ToResource(author);
             }
             catch (Exception Error)
             {
@@ -59,13 +62,15 @@ namespace BusinessLogic
             }
         }
 
-        public void Update(AuthorModel authorModel)
+        public async Task<AuthorResource> UpdateAsync(AuthorModel authorModel)
         {
             try
             {
-                Author author = AuthorMapper.ConvertToAuthorModel(authorModel);
+                Author author = await _unitOfWork.Athuors.GetById(authorModel.Id);
+                author = AuthorMapper.ToEntity(author, authorModel);
                 this._unitOfWork.Athuors.Update(author);
-                this._unitOfWork.Save();
+                await this._unitOfWork.Save();
+                return AuthorMapper.ToResource(author);
             }
             catch (Exception Error) 
             {
@@ -73,11 +78,12 @@ namespace BusinessLogic
             }
         }
 
-        public void Delete(long Id)
+        public async Task DeleteAsync(long Id)
         {
             try
             {
-                this._unitOfWork.Athuors.Delete(Id);
+                await this._unitOfWork.Athuors.Delete(Id);
+                await this._unitOfWork.Save();
             }
             catch (Exception Error)
             {

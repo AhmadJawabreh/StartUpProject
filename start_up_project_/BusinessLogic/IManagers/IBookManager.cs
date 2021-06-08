@@ -1,16 +1,16 @@
 ﻿using Models;
 using Resources;
-using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BusinessLogic.IManagers
 {
     public interface IBookManager
     {
-        public List<BookResource> GetAll();
-        public BookResource GetById(long Id);
-        public void Insert(BookModel bookModel);
-        public void Update(BookModel bookModel);
-        public void Delete(long Id);
+        public Task<List<BookResource>> GetAllAsync();
+        public Task<BookResource> GetByIdAsync(long Id);
+        public Task<BookResource> InsertAsync(BookModel bookModel);
+        public Task<BookResource> UpdateAsync(BookModel bookModel);
+        public Task Delete(long Id);
     }
 }

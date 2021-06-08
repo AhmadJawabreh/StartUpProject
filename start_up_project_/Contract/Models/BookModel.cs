@@ -18,6 +18,5 @@ namespace Models
         public int PublisherId { get; set; }
 
         public List<Author> Auhthors { get; set; }
-
     }
 }

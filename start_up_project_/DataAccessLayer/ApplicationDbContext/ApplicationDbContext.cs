@@ -16,6 +16,8 @@ namespace Data
             .WithMany(item => item.Books)
             .HasForeignKey(item => item.PublisherId)
             .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Book>().HasIndex(item => item.Name).IsUnique(true);
         }
 
         public DbSet<Publisher> Publishers { get; set; }

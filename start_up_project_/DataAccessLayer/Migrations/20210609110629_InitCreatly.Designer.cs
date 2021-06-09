@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210607120612_init_")]
-    partial class init_
+    [Migration("20210609110629_InitCreatly")]
+    partial class InitCreatly
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,11 +47,13 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
 
@@ -66,6 +68,7 @@ namespace DataAccessLayer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(35)
                         .HasColumnType("nvarchar(35)");
 
@@ -76,6 +79,8 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("Name");
 
                     b.HasIndex("PublisherId");
 
@@ -98,7 +103,8 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");

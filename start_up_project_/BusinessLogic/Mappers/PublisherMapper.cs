@@ -46,5 +46,7 @@ namespace BusinessLogic.Mappers
                                 + publisherModel.CityName.Trim() + "," + publisherModel.StateName.Trim();
             return publisher;
         }
+
+
     }
 }

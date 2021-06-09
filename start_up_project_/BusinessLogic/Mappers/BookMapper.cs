@@ -39,7 +39,6 @@ namespace BusinessLogic.Mappers
         {
             book.Name = bookModel.Name;
             book.ReleaseDate = bookModel.ReleaseDate;
-            book.Authors = bookModel.Auhthors;
             book.PublisherId = bookModel.PublisherId;
             return book;
         }

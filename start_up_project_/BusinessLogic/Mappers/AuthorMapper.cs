@@ -47,5 +47,6 @@ namespace BusinessLogic.Mappers
             author.Name = authorModel.FirstName.Trim() + authorModel.LastName.Trim();
             return author;
         }
+
     }
 }

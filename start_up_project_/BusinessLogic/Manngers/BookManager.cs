@@ -6,8 +6,8 @@ using Repoistories;
 using Resources;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-
 namespace BusinessLogic
 {
     public class BookManager : IBookManager
@@ -48,12 +48,13 @@ namespace BusinessLogic
         {
             try
             {
-                Book book = new Book();
+                List<Author> authors = (List<Author>)  await _unitOfWork.Athuors.GetAll();
+                authors = authors.Where(item => bookModel.AuthoIds.Contains((int)item.Id)).ToList();
+                Book book = new Book() { Authors = authors};
                 book = BookMapper.ToEntity(book, bookModel);
                 await  _unitOfWork.Books.Insert(book);
                 await  this._unitOfWork.Save();
-                return BookMapper.ToResource(book);
-                
+                return BookMapper.ToResource(book); 
             }
             catch (Exception Error)
             {

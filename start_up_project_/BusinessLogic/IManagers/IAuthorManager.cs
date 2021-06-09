@@ -7,10 +7,10 @@ namespace BusinessLogic.IManagers
 {
     public  interface IAuthorManager
     {
-        public Task<List<AuthorResource>> GetAllAsync();
-        public Task<AuthorResource> GetByIdAsync(long id);
-        public Task<AuthorResource> InsertAsync(AuthorModel authorModel);
-        public Task<AuthorResource> UpdateAsync(AuthorModel authorModel);
-        public Task DeleteAsync(long id);
+         Task<List<AuthorResource>> GetAllAsync();
+         Task<AuthorResource> GetByIdAsync(long id);
+         Task<AuthorResource> InsertAsync(AuthorModel authorModel);
+         Task<AuthorResource> UpdateAsync(AuthorModel authorModel);
+         Task DeleteAsync(long id);
     }
 }

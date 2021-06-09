@@ -1,4 +1,3 @@
-C:\Users\USER\Desktop\StartUpProject\start_up_project_\DataAccessLayer\obj\Debug\net5.0\DataAccessLayer.csproj.AssemblyReference.cache
 C:\Users\USER\Desktop\StartUpProject\start_up_project_\DataAccessLayer\obj\Debug\net5.0\DataAccessLayer.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\USER\Desktop\StartUpProject\start_up_project_\DataAccessLayer\obj\Debug\net5.0\DataAccessLayer.AssemblyInfoInputs.cache
 C:\Users\USER\Desktop\StartUpProject\start_up_project_\DataAccessLayer\obj\Debug\net5.0\DataAccessLayer.AssemblyInfo.cs
@@ -13,3 +12,4 @@ C:\Users\USER\Desktop\StartUpProject\start_up_project_\DataAccessLayer\obj\Debug
 C:\Users\USER\Desktop\StartUpProject\start_up_project_\DataAccessLayer\bin\Debug\net5.0\DataAccessLayer.runtimeconfig.json
 C:\Users\USER\Desktop\StartUpProject\start_up_project_\DataAccessLayer\bin\Debug\net5.0\DataAccessLayer.runtimeconfig.dev.json
 C:\Users\USER\Desktop\StartUpProject\start_up_project_\DataAccessLayer\obj\Debug\net5.0\DataAccessLayer.genruntimeconfig.cache
+C:\Users\USER\Desktop\StartUpProject\start_up_project_\DataAccessLayer\obj\Debug\net5.0\DataAccessLayer.csproj.AssemblyReference.cache

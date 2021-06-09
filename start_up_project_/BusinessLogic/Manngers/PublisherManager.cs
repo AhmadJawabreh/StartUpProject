@@ -55,7 +55,16 @@ namespace BusinessLogic
         {
             try
             {
-                Publisher publisher = new Publisher();
+                if (publisherModel.Phone == null ||
+                    publisherModel.Phone.Trim().Length == 0 &&
+                    publisherModel.Email == null ||
+                    publisherModel.Email.Trim().Length == 0) {
+
+                    throw new Exception("You Should enter phome or email");
+                
+                }
+
+                    Publisher publisher = new Publisher();
                 publisher = PublisherMapper.ToEntity(publisher, publisherModel);
                 await _UnitOfWork.Publishers.Insert(publisher);
                 await _UnitOfWork.Save();

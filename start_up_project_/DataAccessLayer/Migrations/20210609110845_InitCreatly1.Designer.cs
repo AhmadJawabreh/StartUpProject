@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace API.Migrations
+namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210607085352_1")]
-    partial class _1
+    [Migration("20210609110845_InitCreatly1")]
+    partial class InitCreatly1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,11 +47,13 @@ namespace API.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
 
@@ -67,15 +69,19 @@ namespace API.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(35)
+                        .HasColumnType("nvarchar(35)");
 
-                    b.Property<long>("PublisherId")
+                    b.Property<long?>("PublisherId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.HasIndex("PublisherId");
 
@@ -98,7 +104,8 @@ namespace API.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
@@ -128,8 +135,7 @@ namespace API.Migrations
                     b.HasOne("Entities.Publisher", "Publisher")
                         .WithMany("Books")
                         .HasForeignKey("PublisherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Publisher");
                 });

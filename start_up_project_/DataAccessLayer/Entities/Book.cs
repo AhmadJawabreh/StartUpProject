@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,10 +12,11 @@ namespace Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
-        [MinLength(15, ErrorMessage = "Book Name is Less than 15")]
-        [MaxLength(35, ErrorMessage = "Book Name is greater than 35")]
+        [Required]
+        [MaxLength(35, ErrorMessage = "Book Name should be greater than 35")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Release Date is Required")]
         public DateTime ReleaseDate { get; set; }
 
         public long? PublisherId { get; set; }

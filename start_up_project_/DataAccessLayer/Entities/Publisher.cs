@@ -11,17 +11,18 @@ namespace Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
-        [Required, Range(15, 15)]
-        public String Name { get; set; }
+        [Required(ErrorMessage = "Publisher Name is required.")]
+        [MaxLength(20, ErrorMessage = "Publisher Name should be less than 20.")]
+        public string Name { get; set; }
 
-        [Required, Range(15, 35)]
-        public String Address { get; set; }
+        [Required(ErrorMessage = "Publisher Address is required")]
+        public string Address { get; set; }
 
         [Phone]
-        public String Phone { get; set; }
+        public string Phone { get; set; }
 
         [EmailAddress]
-        public String? Email { get; set; }
+        public string Email { get; set; }
 
         public IEnumerable<Book> Books { get; set; }
     }

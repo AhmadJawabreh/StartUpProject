@@ -8,12 +8,13 @@ namespace Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "First Name is Required")]
-        public String FirstName { get; set; }
+        [MaxLength(20, ErrorMessage = "Publisher Name should be less than 20.")]
+        [MinLength(10, ErrorMessage = "Publisher Name should be greater than 10.")]
+        public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Last Name is Required")]
-        public String LastName { get; set; }
-
-        [Required(ErrorMessage = "Phone is Required")]
+        public string LastName { get; set; }
+     
         public string Phone { get; set; }
 
         [Required(ErrorMessage = "Street Number is Required")]
@@ -28,10 +29,7 @@ namespace Models
         [Required(ErrorMessage = "State Name is Required")]
         public string StateName { get; set; }
 
-        [Required(ErrorMessage = "Address Is Required")]
-        public string Address { get; set; }
-
-        [EmailAddress]
+        
         public string Email { get; set; }
     }
 }

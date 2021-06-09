@@ -51,7 +51,7 @@ namespace API.Controllers
         public async Task<PublisherResource> Create([FromBody] PublisherModel PublisherModel)
         {
             try
-            {
+            { 
                 return await this._PublisherManager.InsertAsync(PublisherModel);
             }
             catch (Exception Error)

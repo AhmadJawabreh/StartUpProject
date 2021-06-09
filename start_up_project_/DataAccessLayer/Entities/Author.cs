@@ -11,12 +11,15 @@ namespace Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
-        [Required, Range(15, 25)]
+        [Required(ErrorMessage = "Last Name is Required")]
+        [MaxLength(25, ErrorMessage = "Author Name should be less than 20.")]
         public string Name { get; set; }
 
-        [EmailAddress, Range(15, 30)]
+        [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "Date of Birth is Required")]
         public DateTime DateOfBirth { get; set; }
 
         public IEnumerable<Book> Books { get; set; }

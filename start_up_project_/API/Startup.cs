@@ -30,16 +30,14 @@ namespace API
             services.AddScoped<IBookManager, BookManager>();
             services.AddScoped<IPublisherManager, PublisherManager>();
             services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer("Server=localhost;Database=start_up_project;Trusted_Connection=True;",
+            options.UseSqlServer("Server=localhost;Database=start_up_project1;Trusted_Connection=True;",
             b => 
                 b.MigrationsAssembly("DataAccessLayer")));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
-
-
-           
+  
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -40,8 +40,8 @@ namespace BusinessLogic.Mappers
         public static Publisher ToEntity(Publisher publisher,PublisherModel publisherModel)
         {
             publisher.Name = publisherModel.FirstName.Trim() + publisherModel.LastName.Trim();
-            publisher.Email = publisherModel.Email.Trim();
-            publisher.Phone = publisherModel.Phone.Trim();
+            publisher.Email = publisherModel.Email?.Trim();
+            publisher.Phone = publisherModel.Phone?.Trim();
             publisher.Address = publisherModel.StreetNumber.Trim() + "," + publisherModel.StreetName.Trim() + ","
                                 + publisherModel.CityName.Trim() + "," + publisherModel.StateName.Trim();
             return publisher;

@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.IManagers;
 using BusinessLogic.Mappers;
 using Entities;
+using Filters;
 using Models;
 using Repoistories;
 using Resources;
@@ -8,88 +9,80 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 namespace BusinessLogic
 {
+
     public class BookManager : IBookManager
     {
         private readonly IUnitOfWork _unitOfWork;
-        public BookManager(IUnitOfWork unitOfWork) 
+
+        public BookManager(IUnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
         }
 
-        public async Task<List<BookResource>> GetAllAsync()
+        public List<BookResource> GetAll(BookFilter bookFilter, int PageNumber, int PageSize)
         {
-            try
-            {
-                IEnumerable<Book> Books = await _unitOfWork.Books.GetAll();
-                return BookMapper.ToResources(Books);
-            }
-            catch (Exception Error)
-            {
-                throw Error;
-            }
+            PageSize = PageSize < 15 ? 15 : PageSize;
+            PageNumber = PageNumber < 1 ? 1: PageNumber;
+            Func<Book,bool> expresion = item => item.Name.Contains(bookFilter.Name);
+            List<Book> books =  _unitOfWork.Books.GetAll(expresion, PageNumber, PageSize);
+            return BookMapper.ToResources(books);
         }
 
         public async Task<BookResource> GetByIdAsync(long Id)
         {
-            try
-            {  
-                Book book = await _unitOfWork.Books.GetById(Id);
-                return BookMapper.ToResource(book);
-            }
-            catch (Exception Error)
+            Book book = await _unitOfWork.Books.GetById(Id);
+            if (book == null)
             {
-                throw Error;
+                throw new Exception("This Book does not found");
             }
+            return BookMapper.ToResource(book);
         }
 
         public async Task<BookResource> InsertAsync(BookModel bookModel)
         {
-            try
+
+            Book _book = _unitOfWork.Books.FirstOrDefalut(item => item.Name == bookModel.Name);
+            if (_book == null)
             {
-                List<Author> authors = (List<Author>)  await _unitOfWork.Athuors.GetAll();
-                authors = authors.Where(item => bookModel.AuthoIds.Contains((int)item.Id)).ToList();
-                Book book = new Book() { Authors = authors};
+                List<Author> authors =  _unitOfWork.Athuors.GetAll(null,1,40);
+                if (bookModel.AuthoIds != null)
+                    authors = authors.Where(item => bookModel.AuthoIds.Contains((int)item.Id)).ToList();
+                Book book = new Book() { Authors = authors };
                 book = BookMapper.ToEntity(book, bookModel);
-                await  _unitOfWork.Books.Insert(book);
-                await  this._unitOfWork.Save();
-                return BookMapper.ToResource(book); 
+                await _unitOfWork.Books.Create(book);
+                await this._unitOfWork.Save();
+                return BookMapper.ToResource(book);
             }
-            catch (Exception Error)
+            else
             {
-                throw Error;
+                throw new Exception("Book Name already exist");
             }
         }
 
         public async Task<BookResource> UpdateAsync(BookModel bookModel)
         {
-            try
+            Book book = await _unitOfWork.Books.GetById(bookModel.Id);
+            if (book == null)
             {
-                Book book =await  _unitOfWork.Books.GetById(bookModel.Id);
-                book = BookMapper.ToEntity(book, bookModel);
-                _unitOfWork.Books.Update(book);
-                await this._unitOfWork.Save();
-                return BookMapper.ToResource(book);
-
+                throw new Exception("This Book does not found");
             }
-            catch (Exception Error) 
-            {
-                throw Error;
-            }
+            book = BookMapper.ToEntity(book, bookModel);
+            _unitOfWork.Books.Update(book);
+            await this._unitOfWork.Save();
+            return BookMapper.ToResource(book);
         }
 
         public async Task Delete(long Id)
         {
-            try
-            {
-                await _unitOfWork.Books.Delete(Id);
-                await this._unitOfWork.Save();
+            Book book = await _unitOfWork.Books.GetById(Id);
+            if (book == null) {
+                throw new Exception("This Book does not found");
             }
-            catch (Exception Error)
-            {
-                throw Error;
-            }
+            _unitOfWork.Books.Delete(book);
+            await this._unitOfWork.Save();
         }
     }
 }

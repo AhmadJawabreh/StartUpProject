@@ -7,7 +7,7 @@ namespace BusinessLogic.IManagers
 {
     public interface IPublisherManager
     {
-         Task<List<PublisherResource>> GetAllAsync();
+         List<PublisherResource> GetAll(int PageNumber, int PageSize);
          Task<PublisherResource> GetByIdAsync(long Id);
          Task<PublisherResource> InsertAsync(PublisherModel publisherModel);
          Task<PublisherResource> UpdateAsync(PublisherModel publisherModel);

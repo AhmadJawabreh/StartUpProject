@@ -14,99 +14,68 @@ namespace BusinessLogic
     {
         private readonly IUnitOfWork _UnitOfWork;
 
-        public PublisherManager(IUnitOfWork UnitOfWork) {
-
+        public PublisherManager(IUnitOfWork UnitOfWork)
+        {
             this._UnitOfWork = UnitOfWork;
         }
 
-        public async Task<List<PublisherResource>> GetAllAsync()
+        public  List<PublisherResource> GetAll(int PageNumber, int PageSize)
         {
-            try
-            {
-                IEnumerable<Publisher> Publishers = await _UnitOfWork.Publishers.GetAll();
-                return PublisherMapper.ToResources(Publishers);
-            }
-            catch (Exception Error)
-            {
-                throw Error;
-            }   
+            PageSize = PageSize < 15 ? 15 : PageSize;
+            PageNumber = PageNumber < 1 ? 1 : PageNumber;
+            List<Publisher> publishers =  _UnitOfWork.Publishers.GetAll(item => true, PageNumber, PageSize);
+            return PublisherMapper.ToResources(publishers);
         }
 
         public async Task<PublisherResource> GetByIdAsync(long Id)
         {
-            try
+            Publisher publisher = await _UnitOfWork.Publishers.GetById(Id);
+            if (publisher == null)
             {
-                Publisher publisher = await _UnitOfWork.Publishers.GetById(Id);
-                if (publisher == null) 
-                {
-                    return null;
-                }
-                return PublisherMapper.ToResource(publisher);
+                throw new Exception("This publisher does not found");
             }
-            catch (Exception Error) 
-            {
-                throw Error;
-            }
+            return PublisherMapper.ToResource(publisher);
         }
-
-        
+      
 
         public async Task<PublisherResource> InsertAsync(PublisherModel publisherModel)
         {
-            try
+            bool IsPhoneEmpty = (publisherModel.Phone == null || publisherModel.Phone?.Trim().Length == 0);
+            bool IsEmailEmpty = (publisherModel.Email == null || publisherModel.Email?.Trim().Length == 0);
+            if (IsPhoneEmpty && IsEmailEmpty)
             {
-                if (publisherModel.Phone == null ||
-                    publisherModel.Phone.Trim().Length == 0 &&
-                    publisherModel.Email == null ||
-                    publisherModel.Email.Trim().Length == 0) {
-
-                    throw new Exception("You Should enter phome or email");
-                
-                }
-
-                    Publisher publisher = new Publisher();
-                publisher = PublisherMapper.ToEntity(publisher, publisherModel);
-                await _UnitOfWork.Publishers.Insert(publisher);
-                await _UnitOfWork.Save();
-                return PublisherMapper.ToResource(publisher);
+                throw new Exception("You Should enter phome or email");
             }
-            catch (Exception Error) 
-            {
-                throw Error;   
-            }
+
+            Publisher publisher = new Publisher();
+            publisher = PublisherMapper.ToEntity(publisher, publisherModel);
+            await _UnitOfWork.Publishers.Create(publisher);
+            await _UnitOfWork.Save();
+            return PublisherMapper.ToResource(publisher);
         }
 
         public async Task<PublisherResource> UpdateAsync(PublisherModel publisherModel)
         {
-            try
+            Publisher publisher = await _UnitOfWork.Publishers.GetById(publisherModel.Id);
+            if (publisher == null)
             {
-                Publisher publisher = await _UnitOfWork.Publishers.GetById(publisherModel.Id);
-                if (publisher == null)
-                {
-                    return null;
-                }       
-                 publisher = PublisherMapper.ToEntity(publisher, publisherModel);
-                _UnitOfWork.Publishers.Update(publisher);
-                await _UnitOfWork.Save();
-                return PublisherMapper.ToResource(publisher);
+                throw new Exception("This Publisher does not found");
             }
-            catch (Exception Error)
-            {
-                throw Error;
-            }
+            publisher = PublisherMapper.ToEntity(publisher, publisherModel);
+            _UnitOfWork.Publishers.Update(publisher);
+            await _UnitOfWork.Save();
+            return PublisherMapper.ToResource(publisher);
         }
 
         public async Task DeleteAsync(long Id)
         {
-            try
+            Publisher publisher = await _UnitOfWork.Publishers.GetById(Id);
+            if (publisher == null)
             {
-               await _UnitOfWork.Publishers.Delete(Id);
-               await  _UnitOfWork.Save();
+                throw new Exception("This Publisher does not found");
             }
-            catch (Exception Error)
-            {
-                throw Error;
-            }
+            _UnitOfWork.Publishers.Delete(publisher);
+            await _UnitOfWork.Save();
         }
     }
 }

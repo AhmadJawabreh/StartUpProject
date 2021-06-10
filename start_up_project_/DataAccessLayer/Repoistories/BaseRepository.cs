@@ -1,6 +1,8 @@
 ﻿using Data;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 
@@ -18,15 +20,14 @@ namespace Repoistories
             this.dbSet = context.Set<TEntity>();
         }
 
-        public async Task Delete(long id)
+        public void Delete(TEntity entity)
         {
-            TEntity entity = await this.dbSet.FindAsync(id);
             this.dbSet.Remove(entity);
         }
 
-        public async Task<IEnumerable<TEntity>> GetAll()
+        public  List<TEntity> GetAll(Func<TEntity, bool> condition, int PageNumber, int PageSize)
         {
-            return await this.dbSet.ToListAsync();
+            return  this.dbSet.Where(condition).Skip((PageNumber -1) * PageSize).Take(PageSize).ToList();
         }
 
         public async Task<TEntity> GetById(long id)
@@ -34,7 +35,7 @@ namespace Repoistories
             return await this.dbSet.FindAsync(id);
         }
 
-        public async Task<TEntity> Insert(TEntity entity)
+        public async Task<TEntity> Create(TEntity entity)
         {
             await this.dbSet.AddAsync(entity);
             return entity;
@@ -44,6 +45,11 @@ namespace Repoistories
         {
             this.dbSet.Update(entity);
             return entity;
+        }
+
+        public TEntity FirstOrDefalut(Func<TEntity, bool> condition)
+        {
+            return this.dbSet.Where(condition).FirstOrDefault();
         }
     }
 }

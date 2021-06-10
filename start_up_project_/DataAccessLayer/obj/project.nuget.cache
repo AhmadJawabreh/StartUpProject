@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "1QDx2TT9cZIe30pcdiD2sJp8P/8L+y24Q9f/KJk2spEh4yZ8Fdtf3ZRbIxstddYht+5B9kVmcEeADGMuWwIyrg==",
+  "dgSpecHash": "BuYEnP1cD2iQESgS3F0rZyMH47jA23kceHkMJDZldk2aU57uxiHvP7KPr5TwS6LZz4I4V2sgkn6WyN/EcIkjvg==",
   "success": true,
   "projectFilePath": "C:\\Users\\USER\\Desktop\\StartUpProject\\start_up_project_\\DataAccessLayer\\DataAccessLayer.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\USER\\.nuget\\packages\\entityframeworkpaginatecore\\2.1.0\\entityframeworkpaginatecore.2.1.0.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.data.sqlclient\\2.0.1\\microsoft.data.sqlclient.2.0.1.nupkg.sha512",
@@ -68,6 +69,7 @@
     "C:\\Users\\USER\\.nuget\\packages\\system.componentmodel.typeconverter\\4.3.0\\system.componentmodel.typeconverter.4.3.0.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\system.configuration.configurationmanager\\4.7.0\\system.configuration.configurationmanager.4.7.0.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\system.console\\4.3.0\\system.console.4.3.0.nupkg.sha512",
+    "C:\\Users\\USER\\.nuget\\packages\\system.data.common\\4.3.0\\system.data.common.4.3.0.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\system.diagnostics.debug\\4.3.0\\system.diagnostics.debug.4.3.0.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\system.diagnostics.diagnosticsource\\5.0.1\\system.diagnostics.diagnosticsource.5.0.1.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\system.diagnostics.tools\\4.3.0\\system.diagnostics.tools.4.3.0.nupkg.sha512",

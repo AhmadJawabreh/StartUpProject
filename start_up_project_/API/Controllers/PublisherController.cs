@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-   
 
-    [Route("publisher")]
+    [Route("Publisher")]
     [ApiController]
     public class PublisherController : Controller
     {
@@ -22,54 +21,59 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<List<PublisherResource>> GetAllAsync()
+        public IActionResult GetAllAsync(int PageNumber = 1, int PageSize = 15)
         {
             try
             {
-                return await this._PublisherManager.GetAllAsync();
+                List<PublisherResource> publisherResources =  this._PublisherManager.GetAll(PageNumber,PageSize);
+                return Ok(publisherResources);
             }
             catch (Exception Error)
             {
-                throw Error;
+                return BadRequest(Error.Message);
             }
         }
 
         [HttpGet("{Id}")]
-        public async Task<PublisherResource> Details([FromRoute] int Id)
+        public async Task<IActionResult> Details([FromRoute] int Id)
         {
             try
             {
-                return await this._PublisherManager.GetByIdAsync(Id);
+                PublisherResource publisherResource = await this._PublisherManager.GetByIdAsync(Id);
+                return Ok(publisherResource);
             }
             catch (Exception Error)
             {
-                throw Error;
+                return BadRequest(Error.Message);
             }
         }
 
         [HttpPost]
-        public async Task<PublisherResource> Create([FromBody] PublisherModel PublisherModel)
+        public async Task<IActionResult> Create([FromBody] PublisherModel PublisherModel)
         {
             try
-            { 
-                return await this._PublisherManager.InsertAsync(PublisherModel);
+            {
+                PublisherResource publisherResource = await this._PublisherManager.InsertAsync(PublisherModel);
+                return Ok(publisherResource);
+
             }
             catch (Exception Error)
             {
-                throw Error;
+                return BadRequest(Error.Message);
             }
         }
 
         [HttpPut]
-        public async Task<PublisherResource> Update([FromBody] PublisherModel PublisherModel)
+        public async Task<IActionResult> Update([FromBody] PublisherModel PublisherModel)
         {
             try
             {
-                return await this._PublisherManager.UpdateAsync(PublisherModel);
+                PublisherResource publisherResource = await this._PublisherManager.UpdateAsync(PublisherModel);
+                return Ok(publisherResource);
             }
             catch (Exception Error)
             {
-                throw Error;
+                return BadRequest(Error.Message);
             }
         }
 
@@ -79,11 +83,11 @@ namespace API.Controllers
             try
             {
                 await this._PublisherManager.DeleteAsync(Id);
-                return NoContent();
+                return Ok();
             }
             catch (Exception Error)
             {
-                throw Error;
+                return BadRequest(Error.Message);
             }
         }
     }

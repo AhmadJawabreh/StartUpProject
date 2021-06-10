@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v5.0": {
       "DataAccessLayer/1.0.0": {
         "dependencies": {
+          "EntityFrameworkPaginateCore": "2.1.0",
           "Microsoft.EntityFrameworkCore": "5.0.6",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.6",
           "Microsoft.EntityFrameworkCore.SqlServer.Design": "1.1.6",
@@ -15,6 +16,20 @@
         },
         "runtime": {
           "DataAccessLayer.dll": {}
+        }
+      },
+      "EntityFrameworkPaginateCore/2.1.0": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.7.0",
+          "Microsoft.EntityFrameworkCore": "5.0.6",
+          "System.Data.Common": "4.3.0",
+          "System.Dynamic.Runtime": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/EntityFrameworkPaginateCore.dll": {
+            "assemblyVersion": "2.1.0.0",
+            "fileVersion": "2.1.0.0"
+          }
         }
       },
       "Humanizer.Core/2.8.26": {
@@ -647,6 +662,18 @@
           "System.IO": "4.3.0",
           "System.Runtime": "4.3.0",
           "System.Text.Encoding": "4.3.0"
+        }
+      },
+      "System.Data.Common/4.3.0": {
+        "dependencies": {
+          "System.Collections": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Text.RegularExpressions": "4.3.0",
+          "System.Threading.Tasks": "4.3.0"
         }
       },
       "System.Diagnostics.Debug/4.3.0": {
@@ -1416,6 +1443,13 @@
       "serviceable": false,
       "sha512": ""
     },
+    "EntityFrameworkPaginateCore/2.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-bo8394l0SgMyRApVOIBBMVkmxpdnEJKzUCn25yVMCDNHpY1H9M5TeDYD6e4IwXmjTJymWVP854hwDkA7Ah7d+w==",
+      "path": "entityframeworkpaginatecore/2.1.0",
+      "hashPath": "entityframeworkpaginatecore.2.1.0.nupkg.sha512"
+    },
     "Humanizer.Core/2.8.26": {
       "type": "package",
       "serviceable": true,
@@ -1863,6 +1897,13 @@
       "sha512": "sha512-DHDrIxiqk1h03m6khKWV2X8p/uvN79rgSqpilL6uzpmSfxfU5ng8VcPtW4qsDsQDHiTv6IPV9TmD5M/vElPNLg==",
       "path": "system.console/4.3.0",
       "hashPath": "system.console.4.3.0.nupkg.sha512"
+    },
+    "System.Data.Common/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lm6E3T5u7BOuEH0u18JpbJHxBfOJPuCyl4Kg1RH10ktYLp5uEEE1xKrHW56/We4SnZpGAuCc9N0MJpSDhTHZGQ==",
+      "path": "system.data.common/4.3.0",
+      "hashPath": "system.data.common.4.3.0.nupkg.sha512"
     },
     "System.Diagnostics.Debug/4.3.0": {
       "type": "package",

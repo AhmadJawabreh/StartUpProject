@@ -20,54 +20,58 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<List<AuthorResource>> GetAllAsync()
+        public  IActionResult GetAllAsync(int PageNumber = 1, int PageSize = 15)
         {
             try
             {
-                return await this._authorManager.GetAllAsync();
+                List<AuthorResource> authorResources =  this._authorManager.GetAll(PageNumber, PageSize);
+                return Ok(authorResources);
             }
             catch (Exception Error)
             {
-                throw Error;
+                return BadRequest(Error.Message);
             }
         }
 
         [HttpGet("{Id}")]
-        public async Task<AuthorResource> DetailsAsync([FromRoute] long Id)
+        public async Task<IActionResult> DetailsAsync([FromRoute] long Id)
         {
             try
             {
-                return await this._authorManager.GetByIdAsync(Id);
+                AuthorResource author =  await this._authorManager.GetByIdAsync(Id);
+                return Ok(author);
             }
             catch (Exception Error)
             {
-                throw Error;
+                return BadRequest(Error.Message);
             }
         }
 
         [HttpPost]
-        public async Task<AuthorResource> AddAsync([FromBody] AuthorModel authorModel)
+        public async Task<IActionResult> AddAsync([FromBody] AuthorModel authorModel)
         {
             try
             {
-                return await this._authorManager.InsertAsync(authorModel);
+                AuthorResource authorResource =  await this._authorManager.InsertAsync(authorModel);
+                return Ok(authorResource);
             }
             catch (Exception Error)
             {
-                throw Error;
+                return BadRequest(Error.Message);
             }
         }
 
         [HttpPut]
-        public async Task<AuthorResource> Update([FromBody] AuthorModel authorModel)
+        public async Task<IActionResult> Update([FromBody] AuthorModel authorModel)
         {
             try
             {
-                return await this._authorManager.UpdateAsync(authorModel);
+                AuthorResource authorResource =  await this._authorManager.UpdateAsync(authorModel);
+                return Ok(authorResource);
             }
             catch (Exception Error)
             {
-                throw Error;
+                return BadRequest(Error.Message);
             }
         }
 
@@ -77,11 +81,11 @@ namespace API.Controllers
             try
             {
                 await this._authorManager.DeleteAsync(Id);
-                return NoContent();
+                return Ok();
             }
             catch (Exception Error)
             {
-                throw Error;
+                return BadRequest(Error.Message);
             }
         }
     }

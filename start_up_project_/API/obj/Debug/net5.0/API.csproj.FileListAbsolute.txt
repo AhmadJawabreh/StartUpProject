@@ -135,3 +135,4 @@ C:\Users\USER\Desktop\StartUpProject\start_up_project_\API\bin\Debug\net5.0\NetT
 C:\Users\USER\Desktop\StartUpProject\start_up_project_\API\obj\Debug\net5.0\EFCoreSqlServerNetTopologySuite.cs
 C:\Users\USER\Desktop\StartUpProject\start_up_project_\API\bin\Debug\net5.0\BusinessLogic.dll
 C:\Users\USER\Desktop\StartUpProject\start_up_project_\API\bin\Debug\net5.0\BusinessLogic.pdb
+C:\Users\USER\Desktop\StartUpProject\start_up_project_\API\bin\Debug\net5.0\EntityFrameworkPaginateCore.dll

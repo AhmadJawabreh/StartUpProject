@@ -3,9 +3,9 @@ using Filters;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Resources;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 
 namespace API.Controllers
 {
@@ -22,73 +22,38 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllBooks([FromQuery] BookFilter BookFilter,int PageNumber = 1, int PageSize = 15)
+        public IActionResult GetAllBooks([FromQuery] BookFilter BookFilter, int PageNumber = 1, int PageSize = 15)
         {
-            try
-            {
-                List<BookResource> bookResources =  _bookManager.GetAll(BookFilter, PageNumber, PageSize);
-                return Ok(bookResources);
-            }
-            catch (Exception Error)
-            {
-                return BadRequest(Error.Message);
-            }
+            List<BookResource> bookResources = _bookManager.GetAll(BookFilter, PageNumber, PageSize);
+            return Ok(bookResources);
         }
 
         [HttpGet("{Id}")]
         public async Task<IActionResult> Details([FromRoute] int Id)
         {
-            try
-            {
-                BookResource bookResource = await _bookManager.GetByIdAsync(Id);
-                return Ok(bookResource);
-            }
-            catch (Exception Error)
-            {
-                return BadRequest(Error.Message);
-            }
+            BookResource bookResource = await _bookManager.GetByIdAsync(Id);
+            return Ok(bookResource);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] BookModel bookModel)
         {
-            try
-            {
-                BookResource bookResource = await _bookManager.InsertAsync(bookModel);
-                return Ok(bookResource);
-            }
-            catch (Exception Error)
-            {
-                return BadRequest(Error.Message);
-            }
+            BookResource bookResource = await _bookManager.InsertAsync(bookModel);
+            return Ok(bookResource);
         }
 
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] BookModel bookModel)
         {
-            try
-            {
-                BookResource bookResource = await _bookManager.UpdateAsync(bookModel);
-                return Ok(bookResource);
-            }
-            catch (Exception Error)
-            {
-                return BadRequest(Error.Message);
-            }
+            BookResource bookResource = await _bookManager.UpdateAsync(bookModel);
+            return Ok(bookResource);
         }
 
         [HttpDelete("{Id}")]
         public async Task<IActionResult> Delete([FromRoute] int Id)
         {
-            try
-            {
-                await _bookManager.Delete(Id);
-                return Ok();
-            }
-            catch (Exception Error)
-            {
-                return BadRequest(Error.Message);
-            }
+            await _bookManager.Delete(Id);
+            return Ok();
         }
     }
 }

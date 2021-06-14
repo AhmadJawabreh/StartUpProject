@@ -35,12 +35,12 @@ namespace BusinessLogic
         {
             if (PageNumber <= 0)
             {
-                throw new PaginationInvalidArgumentException("Page Number must be more than 0.");
+                throw new InvalidArgumentException("Page Number must be more than 0.");
             }
 
             if (PageSize <= 10)
             {
-                throw new PaginationInvalidArgumentException("Page Size must be more than 10.");
+                throw new InvalidArgumentException("Page Size must be more than 10.");
             }
 
             
@@ -54,7 +54,7 @@ namespace BusinessLogic
             Book book = await _unitOfWork.Books.GetById(Id);
             if (book == null)
             {
-                 throw new ItemNotFoundException("This Book does not found");
+                 throw new NotFoundException("This Book does not found");
             }
             return BookMapper.ToResource(book);
         }
@@ -78,7 +78,7 @@ namespace BusinessLogic
             }
             else
             {
-                throw new DubplicatedBookNameException("Book Name already exist");
+                throw new DubplicateDataException("Book Name already exist");
             }
         }
 
@@ -87,7 +87,7 @@ namespace BusinessLogic
             Book book = await _unitOfWork.Books.GetById(bookModel.Id);
             if (book == null)
             {
-                throw new ItemNotFoundException("This Book does not found");
+                throw new NotFoundException("This Book does not found");
             }
             book = BookMapper.ToEntity(book, bookModel);
             _unitOfWork.Books.Update(book);
@@ -100,7 +100,7 @@ namespace BusinessLogic
             Book book = await _unitOfWork.Books.GetById(Id);
             if (book == null)
             {
-                throw new ItemNotFoundException("This Book does not found");
+                throw new NotFoundException("This Book does not found");
             }
             _unitOfWork.Books.Delete(book);
             await this._unitOfWork.Save();

@@ -42,7 +42,7 @@ namespace BusinessLogic
             Publisher publisher = await _UnitOfWork.Publishers.GetById(Id);
             if (publisher == null)
             {
-                throw new ItemNotFoundException("This publisher does not found");
+                throw new NotFoundException("This publisher does not found");
             }
             return PublisherMapper.ToResource(publisher);
         }
@@ -54,7 +54,7 @@ namespace BusinessLogic
             bool isEmailOrPhoneEmpty = string.IsNullOrEmpty(publisherModel.Email) || string.IsNullOrEmpty(publisherModel.Phone);
             if (isEmailOrPhoneEmpty)
             {
-                throw new PublisherContactException("You Should enter Phone or Email");
+                throw new InvalidArgumentException("You Should enter Phone or Email");
             }
 
             Publisher publisher = new Publisher();
@@ -69,7 +69,7 @@ namespace BusinessLogic
             Publisher publisher = await _UnitOfWork.Publishers.GetById(publisherModel.Id);
             if (publisher == null)
             {
-                throw new ItemNotFoundException("This Publisher does not found");
+                throw new NotFoundException("This Publisher does not found");
             }
             publisher = PublisherMapper.ToEntity(publisher, publisherModel);
             _UnitOfWork.Publishers.Update(publisher);
@@ -82,7 +82,7 @@ namespace BusinessLogic
             Publisher publisher = await _UnitOfWork.Publishers.GetById(Id);
             if (publisher == null)
             {
-                throw new ItemNotFoundException("This Publisher does not found");
+                throw new NotFoundException("This Publisher does not found");
             }
             _UnitOfWork.Publishers.Delete(publisher);
             await _UnitOfWork.Save();

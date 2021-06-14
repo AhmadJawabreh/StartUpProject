@@ -27,21 +27,17 @@ namespace API
             {
                 await _next(httpContext);
             }
-            catch (ItemNotFoundException itemNotFoundException)
+            catch (NotFoundException notFoundException)
             {
-                await HandleError(httpContext, itemNotFoundException, HttpStatusCode.NotFound);
+                await HandleError(httpContext, notFoundException, HttpStatusCode.NotFound);
             }
-            catch (PublisherContactException itemNotFoundException)
+            catch (InvalidArgumentException invalidArgumentExceptio)
             {
-                await HandleError(httpContext, itemNotFoundException, HttpStatusCode.BadRequest);
+                await HandleError(httpContext, invalidArgumentExceptio, HttpStatusCode.BadRequest);
             }
-            catch (DubplicatedBookNameException dubplicatedBookNameException)
+            catch (DubplicateDataException dubplicateDataException)
             {
-                await HandleError(httpContext, dubplicatedBookNameException, HttpStatusCode.Conflict);
-            }
-            catch (PaginationInvalidArgumentException paginationInvalidArgumentException)
-            {
-                await HandleError(httpContext, paginationInvalidArgumentException, HttpStatusCode.UnsupportedMediaType);
+                await HandleError(httpContext, dubplicateDataException, HttpStatusCode.Conflict);
             }
             catch (Exception Error)
             {

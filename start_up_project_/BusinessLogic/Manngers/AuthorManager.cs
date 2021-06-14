@@ -33,12 +33,12 @@ namespace BusinessLogic
 
             if (PageNumber <= 0)
             {
-                throw new PaginationInvalidArgumentException("Page Number must be more than 0.");
+                throw new InvalidArgumentException("Page Number must be more than 0.");
             }
 
             if (PageSize < 10)
             {
-                throw new PaginationInvalidArgumentException("Page Size must be more than 10.");
+                throw new InvalidArgumentException("Page Size must be more than 10.");
             }
 
             List<Author> authors = _unitOfWork.Athuors.GetAll(item => true, PageNumber, PageSize);
@@ -50,7 +50,7 @@ namespace BusinessLogic
             Author author = await _unitOfWork.Athuors.GetById(Id);
             if (author == null)
             {
-                throw new ItemNotFoundException("This Author does not found.");
+                throw new NotFoundException("This Author does not found.");
             }
             return AuthorMapper.ToResource(author);
         }
@@ -69,7 +69,7 @@ namespace BusinessLogic
             Author author = await _unitOfWork.Athuors.GetById(authorModel.Id);
             if (author == null)
             {
-                throw new ItemNotFoundException("This Author does not found.");
+                throw new NotFoundException("This Author does not found.");
             }
             author = AuthorMapper.ToEntity(author, authorModel);
             _unitOfWork.Athuors.Update(author);
@@ -82,7 +82,7 @@ namespace BusinessLogic
             Author author = await _unitOfWork.Athuors.GetById(Id);
             if (author == null)
             {
-                throw new ItemNotFoundException("This Author does not found.");
+                throw new NotFoundException("This Author does not found.");
             }
             _unitOfWork.Athuors.Delete(author);
             await _unitOfWork.Save();

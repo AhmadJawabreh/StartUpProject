@@ -4,7 +4,6 @@ using Entities;
 using Models;
 using Repoistories;
 using Resources;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -37,7 +36,7 @@ namespace BusinessLogic
                 throw new PaginationInvalidArgumentException("Page Number must be more than 0.");
             }
 
-            if (PageSize <= 10)
+            if (PageSize < 10)
             {
                 throw new PaginationInvalidArgumentException("Page Size must be more than 10.");
             }

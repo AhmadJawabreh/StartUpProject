@@ -24,7 +24,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllAsync(Pagination pagination)
+        public IActionResult GetAllAsync([FromQuery] Pagination pagination)
         {
             List<AuthorResource> authorResources = _authorManager.GetAll(pagination.PageNumber, pagination.PageSize);
             return Ok(authorResources);

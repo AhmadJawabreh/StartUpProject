@@ -12,7 +12,7 @@ namespace Entities
         public long Id { get; set; }
 
         [Required(ErrorMessage = "Last Name is Required")]
-        [MaxLength(25, ErrorMessage = "Author Name should be less than 20.")]
+        [MaxLength(25, ErrorMessage = "Author Name should be less than 25.")]
         public string Name { get; set; }
 
         [Required]

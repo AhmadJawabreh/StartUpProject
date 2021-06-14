@@ -1,5 +1,5 @@
-﻿using BusinessLogic.IManagers;
-using BusinessLogic.Mappers;
+﻿using BusinessLogic.Mappers;
+using Contract.Exceptions;
 using Entities;
 using Models;
 using Repoistories;
@@ -10,6 +10,15 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic
 {
+
+    public interface IAuthorManager
+    {
+        List<AuthorResource> GetAll(int PageNumber, int PageSize);
+        Task<AuthorResource> GetByIdAsync(long id);
+        Task<AuthorResource> InsertAsync(AuthorModel authorModel);
+        Task<AuthorResource> UpdateAsync(AuthorModel authorModel);
+        Task DeleteAsync(long id);
+    }
 
     public class AuthorManager : IAuthorManager
     {
@@ -22,9 +31,17 @@ namespace BusinessLogic
 
         public List<AuthorResource> GetAll(int PageNumber, int PageSize)
         {
-            PageSize = PageSize < 15 ? 15 : PageSize;
-            PageNumber = PageNumber < 1 ? 1 : PageNumber;
-            
+
+            if (PageNumber <= 0)
+            {
+                throw new PaginationInvalidArgumentException("Page Number must be more than 0.");
+            }
+
+            if (PageSize <= 10)
+            {
+                throw new PaginationInvalidArgumentException("Page Size must be more than 10.");
+            }
+
             List<Author> authors = _unitOfWork.Athuors.GetAll(item => true, PageNumber, PageSize);
             return AuthorMapper.ToResources(authors);
         }
@@ -34,7 +51,7 @@ namespace BusinessLogic
             Author author = await _unitOfWork.Athuors.GetById(Id);
             if (author == null)
             {
-                throw new Exception("This Author does not found.");
+                throw new ItemNotFoundException("This Author does not found.");
             }
             return AuthorMapper.ToResource(author);
         }
@@ -53,7 +70,7 @@ namespace BusinessLogic
             Author author = await _unitOfWork.Athuors.GetById(authorModel.Id);
             if (author == null)
             {
-                throw new Exception("This Author does not found.");
+                throw new ItemNotFoundException("This Author does not found.");
             }
             author = AuthorMapper.ToEntity(author, authorModel);
             _unitOfWork.Athuors.Update(author);
@@ -66,7 +83,7 @@ namespace BusinessLogic
             Author author = await _unitOfWork.Athuors.GetById(Id);
             if (author == null)
             {
-                throw new Exception("This Author does not found.");
+                throw new ItemNotFoundException("This Author does not found.");
             }
             _unitOfWork.Athuors.Delete(author);
             await _unitOfWork.Save();

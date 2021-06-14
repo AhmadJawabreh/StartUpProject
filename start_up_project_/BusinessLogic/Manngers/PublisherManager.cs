@@ -1,5 +1,5 @@
-﻿using BusinessLogic.IManagers;
-using BusinessLogic.Mappers;
+﻿using BusinessLogic.Mappers;
+using Contract.Exceptions;
 using Entities;
 using Models;
 using Repoistories;
@@ -10,6 +10,16 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic
 {
+
+    public interface IPublisherManager
+    {
+        List<PublisherResource> GetAll(int PageNumber, int PageSize);
+        Task<PublisherResource> GetByIdAsync(long Id);
+        Task<PublisherResource> InsertAsync(PublisherModel publisherModel);
+        Task<PublisherResource> UpdateAsync(PublisherModel publisherModel);
+        Task DeleteAsync(long Id);
+    }
+
     public class PublisherManager : IPublisherManager
     {
         private readonly IUnitOfWork _UnitOfWork;
@@ -32,7 +42,7 @@ namespace BusinessLogic
             Publisher publisher = await _UnitOfWork.Publishers.GetById(Id);
             if (publisher == null)
             {
-                throw new Exception("This publisher does not found");
+                throw new ItemNotFoundException("This publisher does not found");
             }
             return PublisherMapper.ToResource(publisher);
         }
@@ -40,11 +50,11 @@ namespace BusinessLogic
 
         public async Task<PublisherResource> InsertAsync(PublisherModel publisherModel)
         {
-            bool IsPhoneEmpty = (publisherModel.Phone == null || publisherModel.Phone?.Trim().Length == 0);
-            bool IsEmailEmpty = (publisherModel.Email == null || publisherModel.Email?.Trim().Length == 0);
-            if (IsPhoneEmpty && IsEmailEmpty)
+            
+            bool isEmailOrPhoneEmpty = string.IsNullOrEmpty(publisherModel.Email) || string.IsNullOrEmpty(publisherModel.Phone);
+            if (isEmailOrPhoneEmpty)
             {
-                throw new Exception("You Should enter phome or email");
+                throw new PublisherContactException("You Should enter Phone or Email");
             }
 
             Publisher publisher = new Publisher();
@@ -59,7 +69,7 @@ namespace BusinessLogic
             Publisher publisher = await _UnitOfWork.Publishers.GetById(publisherModel.Id);
             if (publisher == null)
             {
-                throw new Exception("This Publisher does not found");
+                throw new ItemNotFoundException("This Publisher does not found");
             }
             publisher = PublisherMapper.ToEntity(publisher, publisherModel);
             _UnitOfWork.Publishers.Update(publisher);
@@ -72,7 +82,7 @@ namespace BusinessLogic
             Publisher publisher = await _UnitOfWork.Publishers.GetById(Id);
             if (publisher == null)
             {
-                throw new Exception("This Publisher does not found");
+                throw new ItemNotFoundException("This Publisher does not found");
             }
             _UnitOfWork.Publishers.Delete(publisher);
             await _UnitOfWork.Save();

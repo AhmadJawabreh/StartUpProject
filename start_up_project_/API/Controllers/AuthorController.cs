@@ -1,7 +1,9 @@
-﻿using BusinessLogic.IManagers;
+﻿using BusinessLogic;
+using Contract.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Resources;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -22,37 +24,37 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllAsync(int PageNumber = 1, int PageSize = 15)
+        public IActionResult GetAllAsync(Pagination pagination)
         {
-            List<AuthorResource> authorResources = this._authorManager.GetAll(PageNumber, PageSize);
+            List<AuthorResource> authorResources = _authorManager.GetAll(pagination.PageNumber, pagination.PageSize);
             return Ok(authorResources);
         }
 
         [HttpGet("{Id}")]
         public async Task<IActionResult> DetailsAsync([FromRoute] long Id)
         {
-            AuthorResource author = await this._authorManager.GetByIdAsync(Id);
+            AuthorResource author = await _authorManager.GetByIdAsync(Id);
             return Ok(author);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddAsync([FromBody] AuthorModel authorModel)
         {
-            AuthorResource authorResource = await this._authorManager.InsertAsync(authorModel);
+            AuthorResource authorResource = await _authorManager.InsertAsync(authorModel);
             return Ok(authorResource);
         }
 
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] AuthorModel authorModel)
         {
-            AuthorResource authorResource = await this._authorManager.UpdateAsync(authorModel);
+            AuthorResource authorResource = await _authorManager.UpdateAsync(authorModel);
             return Ok(authorResource);
         }
 
         [HttpDelete("{Id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] long Id)
         {
-            await this._authorManager.DeleteAsync(Id);
+            await _authorManager.DeleteAsync(Id);
             return Ok();
         }
     }

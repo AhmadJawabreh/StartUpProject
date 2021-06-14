@@ -1,4 +1,5 @@
-﻿using BusinessLogic.IManagers;
+﻿using BusinessLogic;
+using Contract.Filters;
 using Filters;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -22,9 +23,9 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllBooks([FromQuery] BookFilter BookFilter, int PageNumber = 1, int PageSize = 15)
+        public IActionResult GetAllBooks([FromQuery] BookFilter BookFilter, [FromQuery] Pagination pagination)
         {
-            List<BookResource> bookResources = _bookManager.GetAll(BookFilter, PageNumber, PageSize);
+            List<BookResource> bookResources = _bookManager.GetAll(BookFilter, pagination.PageNumber, pagination.PageSize);
             return Ok(bookResources);
         }
 

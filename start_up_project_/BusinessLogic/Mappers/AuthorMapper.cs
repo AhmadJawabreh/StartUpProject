@@ -19,7 +19,7 @@ namespace BusinessLogic.Mappers
                     {
                         Id = author.Id,
                         Email = author.Email,
-                        FullName = author.Name,
+                        Name = author.Name,
                         DateOfBirth = author.DateOfBirth
 
                     }
@@ -33,7 +33,7 @@ namespace BusinessLogic.Mappers
         {
             AuthorResource authorResource = new AuthorResource();
             authorResource.Id = author.Id;
-            authorResource.FullName = author.Name;
+            authorResource.Name = author.Name;
             authorResource.Email = author.Email;
             authorResource.DateOfBirth = author.DateOfBirth;
             return authorResource;
@@ -44,7 +44,7 @@ namespace BusinessLogic.Mappers
         {
             author.Email = authorModel.Email;
             author.DateOfBirth = authorModel.DateOfBirth;
-            author.Name = authorModel.FirstName.Trim() + authorModel.LastName.Trim();
+            author.Name = authorModel.Name.Trim();
             return author;
         }
 

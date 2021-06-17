@@ -31,8 +31,16 @@ namespace BusinessLogic
 
         public  List<PublisherResource> GetAll(int PageNumber, int PageSize)
         {
-            PageSize = PageSize < 15 ? 15 : PageSize;
-            PageNumber = PageNumber < 1 ? 1 : PageNumber;
+            if (PageNumber <= 0)
+            {
+                throw new InvalidArgumentException("Page Number must be more than 0.");
+            }
+
+            if (PageSize <= 10)
+            {
+                throw new InvalidArgumentException("Page Size must be more than 10.");
+            }
+
             List<Publisher> publishers =  _UnitOfWork.Publishers.GetAll(item => true, PageNumber, PageSize);
             return PublisherMapper.ToResources(publishers);
         }

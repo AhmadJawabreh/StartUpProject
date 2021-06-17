@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210609110845_InitCreatly1")]
-    partial class InitCreatly1
+    [Migration("20210617124403_edit_on_publisher_entity")]
+    partial class edit_on_publisher_entity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -104,8 +104,8 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");

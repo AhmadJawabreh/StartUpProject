@@ -13,7 +13,12 @@ namespace Entities
 
         [Required(ErrorMessage = "Publisher Name is required.")]
         [MaxLength(20, ErrorMessage = "Publisher Name should be less than 20.")]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+
+
+        [Required(ErrorMessage = "Publisher Name is required.")]
+        [MaxLength(20, ErrorMessage = "Publisher Name should be less than 20.")]
+        public string LastName { get; set; }
 
         [Required(ErrorMessage = "Publisher Address is required")]
         public string Address { get; set; }

@@ -16,7 +16,8 @@ namespace BusinessLogic.Mappers
                 publisherResources.Add(new PublisherResource
                     {
                         Id = Item.Id,
-                        Name = Item.Name,
+                        FirstName = Item.FirstName,
+                        LastName = Item.LastName,
                         Email = Item.Email,
                         Address = Item.Address,
                         Phone = Item.Phone
@@ -30,7 +31,8 @@ namespace BusinessLogic.Mappers
         {
             PublisherResource publisherResource = new PublisherResource();
             publisherResource.Id = publisher.Id;
-            publisherResource.Name = publisher.Name;
+            publisherResource.FirstName = publisher.FirstName;
+            publisherResource.LastName = publisher.LastName;
             publisherResource.Email = publisher.Email;
             publisherResource.Address = publisher.Address;
             publisherResource.Phone = publisher.Phone;
@@ -39,11 +41,11 @@ namespace BusinessLogic.Mappers
 
         public static Publisher ToEntity(Publisher publisher,PublisherModel publisherModel)
         {
-            publisher.Name = publisherModel.FirstName.Trim() + publisherModel.LastName.Trim();
+            publisher.FirstName = publisherModel.FirstName.Trim();
+            publisher.LastName = publisherModel.LastName.Trim();
             publisher.Email = publisherModel.Email?.Trim();
             publisher.Phone = publisherModel.Phone?.Trim();
-            publisher.Address = publisherModel.StreetNumber.Trim() + "," + publisherModel.StreetName.Trim() + ","
-                                + publisherModel.CityName.Trim() + "," + publisherModel.StateName.Trim();
+            publisher.Address = publisherModel.Address?.Trim();
             return publisher;
         }
 

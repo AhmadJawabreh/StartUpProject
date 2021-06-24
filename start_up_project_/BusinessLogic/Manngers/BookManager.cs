@@ -5,7 +5,6 @@ using Filters;
 using Models;
 using Repoistories;
 using Resources;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,9 +12,10 @@ using System.Threading.Tasks;
 namespace BusinessLogic
 {
 
+
     public interface IBookManager
     {
-        List<BookResource> GetAll(BookFilter BookFilter, int PageNumber, int PageSize);
+        List<BookResource> GetAll(Filter filter);
 
         Task<BookResource> GetByIdAsync(long Id);
 
@@ -23,7 +23,7 @@ namespace BusinessLogic
 
         Task<BookResource> UpdateAsync(BookModel bookModel);
 
-        Task<BookResource> GetBookWithAuthorsAndPublisher(BookFilter bookFilter,  long Id);
+        Task<BookResource> GetBookWithAuthorsAndPublisher(Filter bookFilter, long Id);
 
         Task Delete(long Id);
     }
@@ -37,22 +37,22 @@ namespace BusinessLogic
             this._unitOfWork = unitOfWork;
         }
 
-        public List<BookResource> GetAll(BookFilter bookFilter, int PageNumber, int PageSize)
+        public List<BookResource> GetAll(Filter filter)
         {
-            if (PageNumber <= 0)
+            
+            if (filter.PageNumber <= 0)
             {
                 throw new InvalidArgumentException("Page Number must be more than 0.");
             }
 
-            if (PageSize <= 10)
+            if (filter.PageSize <= 10)
             {
                 throw new InvalidArgumentException("Page Size must be more than 10.");
             }
 
+            List<Book> books = _unitOfWork.Books.GetAll(filter);
 
-            Func<Book, bool> expresion = bookFilter?.Name == null ? item => true : item => item.Name.Contains(bookFilter?.Name);
-            List<Book> books = _unitOfWork.Books.GetAll(expresion, PageNumber, PageSize);
-            return BookMapper.ToResources(books);
+            return BookMapper.ToResources(books);   
         }
 
         public async Task<BookResource> GetByIdAsync(long Id)
@@ -78,9 +78,12 @@ namespace BusinessLogic
                 throw new NotFoundException("Publisher does not exist ");
 
             // To DO:
-            List<Author> authors = _unitOfWork.Athuors.GetAll(item => true, 1, 40);
+            Filter filter = new Filter();
+            filter.PageNumber = 1;
+            filter.PageSize = 40;
+            List<Author> authors = _unitOfWork.Athuors.GetAll(filter);
 
-            if (bookModel.AuthoIds != null) 
+            if (bookModel.AuthoIds != null)
             {
                 authors = authors.Where(item => bookModel.AuthoIds.Contains((int)item.Id)).ToList();
             }
@@ -102,10 +105,13 @@ namespace BusinessLogic
             if (publisher == null)
                 throw new NotFoundException("Publisher does not exist ");
 
-            List<Author> authors = _unitOfWork.Athuors.GetAll(item => true, 1, 40);
+            Filter filter = new Filter();
+            filter.PageNumber = 1;
+            filter.PageSize = 40;
+            List<Author> authors = _unitOfWork.Athuors.GetAll(filter);
             if (bookModel.AuthoIds != null)
                 book.Authors = authors.Where(item => bookModel.AuthoIds.Contains((int)item.Id)).ToList();
-            
+
 
             book = BookMapper.ToEntity(book, bookModel);
             _unitOfWork.Books.Update(book);
@@ -124,7 +130,7 @@ namespace BusinessLogic
             await this._unitOfWork.Save();
         }
 
-        public async Task<BookResource> GetBookWithAuthorsAndPublisher(BookFilter bookFilter, long Id)
+        public async Task<BookResource> GetBookWithAuthorsAndPublisher(Filter bookFilter, long Id)
         {
             Book book = await _unitOfWork.Books.GetBookWithAuthorsAndPublisher(bookFilter, Id);
             if (book == null)

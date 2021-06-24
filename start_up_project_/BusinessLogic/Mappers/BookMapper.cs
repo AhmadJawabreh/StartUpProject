@@ -16,8 +16,10 @@ namespace BusinessLogic.Mappers
                      new BookResource
                      {
                          Id = Item.Id,
-                         Name = Item.Name,
-                         ReleaseDate = Item.ReleaseDate
+                         Name = Item?.Name,
+                         ReleaseDate = Item.ReleaseDate,
+                         Publisher = PublisherMapper.ToResource(Item?.Publisher),
+                         AuthorResources = AuthorMapper.ToResources(Item?.Authors)
                      }
                     );
             }

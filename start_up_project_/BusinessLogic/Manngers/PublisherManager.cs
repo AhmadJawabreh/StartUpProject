@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Mappers;
 using Contract.Exceptions;
 using Entities;
+using Filters;
 using Models;
 using Repoistories;
 using Resources;
@@ -12,7 +13,7 @@ namespace BusinessLogic
 
     public interface IPublisherManager
     {
-        List<PublisherResource> GetAll(int PageNumber, int PageSize);
+        List<PublisherResource> GetAll(Filter filter);
         Task<PublisherResource> GetByIdAsync(long Id);
         Task<PublisherResource> InsertAsync(PublisherModel publisherModel);
         Task<PublisherResource> UpdateAsync(PublisherModel publisherModel);
@@ -28,19 +29,19 @@ namespace BusinessLogic
             this._UnitOfWork = UnitOfWork;
         }
 
-        public  List<PublisherResource> GetAll(int PageNumber, int PageSize)
+        public  List<PublisherResource> GetAll(Filter filter)
         {
-            if (PageNumber <= 0)
+            if (filter.PageNumber <= 0)
             {
                 throw new InvalidArgumentException("Page Number must be more than 0.");
             }
 
-            if (PageSize <= 10)
+            if (filter.PageSize <= 10)
             {
                 throw new InvalidArgumentException("Page Size must be more than 10.");
             }
 
-            List<Publisher> publishers =  _UnitOfWork.Publishers.GetAll(item => true, PageNumber, PageSize);
+            List<Publisher> publishers =  _UnitOfWork.Publishers.GetAll(filter);
             return PublisherMapper.ToResources(publishers);
         }
 

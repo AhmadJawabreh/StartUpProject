@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Filters;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,7 +8,7 @@ namespace Repoistories
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        List<TEntity> GetAll(Func<TEntity, bool> condition, int PageNumber, int PageSize);
+        List<TEntity> GetAll(Filter filter);
 
         Task<TEntity> GetById(long id);
 

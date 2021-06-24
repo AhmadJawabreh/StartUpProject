@@ -1,5 +1,6 @@
 ﻿using BusinessLogic;
 using Contract.Filters;
+using Filters;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Resources;
@@ -22,9 +23,9 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllAsync([FromQuery] Pagination pagination)
+        public IActionResult GetAllAsync([FromQuery] Filter filter)
         {
-            List<PublisherResource> publisherResources = _PublisherManager.GetAll(pagination.PageNumber, pagination.PageSize);
+            List<PublisherResource> publisherResources = _PublisherManager.GetAll(filter);
             return Ok(publisherResources);
         }
 

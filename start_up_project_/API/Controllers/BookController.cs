@@ -23,9 +23,9 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllBooks([FromQuery] BookFilter BookFilter, [FromQuery] Pagination pagination)
+        public IActionResult GetAllBooks([FromQuery] Filter filter)
         {
-            List<BookResource> bookResources = _bookManager.GetAll(BookFilter, pagination.PageNumber, pagination.PageSize);
+            List<BookResource> bookResources = _bookManager.GetAll(filter);
             return Ok(bookResources);
         }
 
@@ -37,7 +37,7 @@ namespace API.Controllers
         }
 
         [HttpGet("ExtraDetails/{Id}")]
-        public async Task<IActionResult> GetBookWithAuthorsAndPublisher([FromQuery] BookFilter bookFilter, [FromRoute] int Id)
+        public async Task<IActionResult> GetBookWithAuthorsAndPublisher([FromQuery] Filter bookFilter, [FromRoute] int Id)
         {
             BookResource bookResource = await _bookManager.GetBookWithAuthorsAndPublisher(bookFilter, Id);
             return Ok(bookResource);

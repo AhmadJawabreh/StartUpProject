@@ -1,4 +1,5 @@
 ﻿using Data;
+using Filters;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,9 +26,9 @@ namespace Repoistories
             this.dbSet.Remove(entity);
         }
 
-        public  List<TEntity> GetAll(Func<TEntity, bool> condition, int PageNumber, int PageSize)
+        public virtual List<TEntity> GetAll(Filter filter)
         {
-            return  this.dbSet.Where(condition).Skip((PageNumber -1) * PageSize).Take(PageSize).ToList();
+            return  this.dbSet.Skip((filter.PageNumber - 1) * filter.PageSize).Take(filter.PageSize).ToList();
         }
 
         public async Task<TEntity> GetById(long id)

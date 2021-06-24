@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Mappers;
 using Contract.Exceptions;
 using Entities;
+using Filters;
 using Models;
 using Repoistories;
 using Resources;
@@ -12,7 +13,7 @@ namespace BusinessLogic
 
     public interface IAuthorManager
     {
-        List<AuthorResource> GetAll(int PageNumber, int PageSize);
+        List<AuthorResource> GetAll(Filter filter);
         Task<AuthorResource> GetByIdAsync(long id);
         Task<AuthorResource> InsertAsync(AuthorModel authorModel);
         Task<AuthorResource> UpdateAsync(AuthorModel authorModel);
@@ -28,20 +29,20 @@ namespace BusinessLogic
             this._unitOfWork = unitOfWork;
         }
 
-        public List<AuthorResource> GetAll(int PageNumber, int PageSize)
+        public List<AuthorResource> GetAll(Filter filter)
         {
 
-            if (PageNumber <= 0)
+            if (filter.PageNumber <= 0)
             {
                 throw new InvalidArgumentException("Page Number must be more than 0.");
             }
 
-            if (PageSize < 10)
+            if (filter.PageSize < 10)
             {
                 throw new InvalidArgumentException("Page Size must be more than 10.");
             }
 
-            List<Author> authors = _unitOfWork.Athuors.GetAll(item => true, PageNumber, PageSize);
+            List<Author> authors = _unitOfWork.Athuors.GetAll(filter);
             return AuthorMapper.ToResources(authors);
         }
 

@@ -1,5 +1,6 @@
 ﻿using BusinessLogic;
 using Contract.Filters;
+using Contract.BookExtraData;
 using Filters;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -37,9 +38,9 @@ namespace API.Controllers
         }
 
         [HttpGet("ExtraDetails/{Id}")]
-        public async Task<IActionResult> GetBookWithAuthorsAndPublisher([FromRoute] int Id)
+        public async Task<IActionResult> GetBookWithAuthorsAndPublisher([FromQuery] BookExtraData bookExtraData, [FromRoute] int Id)
         {
-            BookResource bookResource = await _bookManager.GetBookWithAuthorsAndPublisher(Id);
+            BookResource bookResource = await _bookManager.GetBookWithAuthorsAndPublisher(bookExtraData,Id);
             return Ok(bookResource);
         }
 

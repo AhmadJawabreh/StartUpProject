@@ -12,7 +12,7 @@ namespace Repoistories
     {
         protected readonly ApplicationDbContext _context;
 
-        protected readonly DbSet<TEntity> dbSet;
+        protected  DbSet<TEntity> dbSet;
 
         public BaseRepository(ApplicationDbContext context)
         {

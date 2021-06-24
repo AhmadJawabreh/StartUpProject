@@ -2171,6 +2171,16 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "Contract/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "compile": {
+          "bin/placeholder/Contract.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Contract.dll": {}
+        }
       }
     }
   },
@@ -7445,10 +7455,16 @@
         "system.xml.xmlserializer.4.3.0.nupkg.sha512",
         "system.xml.xmlserializer.nuspec"
       ]
+    },
+    "Contract/1.0.0": {
+      "type": "project",
+      "path": "../Contract/Contract.csproj",
+      "msbuildProject": "../Contract/Contract.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "Contract >= 1.0.0",
       "EntityFrameworkPaginateCore >= 2.1.0",
       "Microsoft.EntityFrameworkCore >= 5.0.6",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.6",
@@ -7482,7 +7498,11 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\USER\\Desktop\\StartUpProject\\start_up_project_\\Contract\\Contract.csproj": {
+              "projectPath": "C:\\Users\\USER\\Desktop\\StartUpProject\\start_up_project_\\Contract\\Contract.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

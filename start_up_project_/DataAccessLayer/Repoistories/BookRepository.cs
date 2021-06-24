@@ -2,12 +2,14 @@
 {
     using Data;
     using Entities;
+    using Filters;
     using Microsoft.EntityFrameworkCore;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public interface IBookRepository : IRepository<Book>
     {
-        Task<Book> GetBookWithAuthorsAndPublisher(bool authors, bool publisher, long Id);
+        Task<Book> GetBookWithAuthorsAndPublisher(BookFilter bookFilter, long Id);
     }
 
     public class BookRepository : BaseRepository<Book>, IBookRepository
@@ -16,26 +18,20 @@
         {
         }
 
-        public async Task<Book> GetBookWithAuthorsAndPublisher(bool authors, bool publisher, long Id)
+        public async Task<Book> GetBookWithAuthorsAndPublisher(BookFilter bookFilter, long Id)
         {
-
-
-            if (publisher && authors)
+            IQueryable<Book> _dbSet = dbSet;
+            if (bookFilter.Publisher)
             {
-                return await dbSet.Include(item => item.Authors).Include(item => item.Publisher).FirstOrDefaultAsync(item => item.Id == Id);
+                _dbSet = _dbSet.Include(item => item.Publisher);
             }
 
-            if (authors)
+            if (bookFilter.Authors)
             {
-                return await dbSet.Include(item => item.Authors).FirstOrDefaultAsync(item => item.Id == Id);
+                _dbSet = _dbSet.Include(item => item.Authors);
             }
 
-            if (publisher)
-            {
-                return await dbSet.Include(item => item.Publisher).FirstOrDefaultAsync(item => item.Id == Id);
-            }
-
-            return await dbSet.FirstOrDefaultAsync(item => item.Id == Id);
+            return await _dbSet.FirstOrDefaultAsync(item => item.Id == Id);
         }
     }
 }

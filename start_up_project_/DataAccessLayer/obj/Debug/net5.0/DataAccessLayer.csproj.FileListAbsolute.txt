@@ -13,3 +13,6 @@ C:\Users\USER\Desktop\StartUpProject\start_up_project_\DataAccessLayer\bin\Debug
 C:\Users\USER\Desktop\StartUpProject\start_up_project_\DataAccessLayer\bin\Debug\net5.0\DataAccessLayer.runtimeconfig.dev.json
 C:\Users\USER\Desktop\StartUpProject\start_up_project_\DataAccessLayer\obj\Debug\net5.0\DataAccessLayer.genruntimeconfig.cache
 C:\Users\USER\Desktop\StartUpProject\start_up_project_\DataAccessLayer\obj\Debug\net5.0\DataAccessLayer.csproj.AssemblyReference.cache
+C:\Users\USER\Desktop\StartUpProject\start_up_project_\DataAccessLayer\bin\Debug\net5.0\Contract.dll
+C:\Users\USER\Desktop\StartUpProject\start_up_project_\DataAccessLayer\bin\Debug\net5.0\Contract.pdb
+C:\Users\USER\Desktop\StartUpProject\start_up_project_\DataAccessLayer\obj\Debug\net5.0\DataAccessLayer.csproj.CopyComplete

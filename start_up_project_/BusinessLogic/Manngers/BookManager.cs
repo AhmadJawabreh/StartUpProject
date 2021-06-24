@@ -1,6 +1,5 @@
 ﻿using BusinessLogic.Mappers;
 using Contract.Exceptions;
-using Contract.BookExtraData;
 using Entities;
 using Filters;
 using Models;
@@ -24,7 +23,7 @@ namespace BusinessLogic
 
         Task<BookResource> UpdateAsync(BookModel bookModel);
 
-        Task<BookResource> GetBookWithAuthorsAndPublisher(BookExtraData bookExtraData,  long Id);
+        Task<BookResource> GetBookWithAuthorsAndPublisher(BookFilter bookFilter,  long Id);
 
         Task Delete(long Id);
     }
@@ -125,9 +124,9 @@ namespace BusinessLogic
             await this._unitOfWork.Save();
         }
 
-        public async Task<BookResource> GetBookWithAuthorsAndPublisher(BookExtraData bookExtraData, long Id)
+        public async Task<BookResource> GetBookWithAuthorsAndPublisher(BookFilter bookFilter, long Id)
         {
-            Book book = await _unitOfWork.Books.GetBookWithAuthorsAndPublisher(bookExtraData.Authors, bookExtraData.Publisher, Id);
+            Book book = await _unitOfWork.Books.GetBookWithAuthorsAndPublisher(bookFilter, Id);
             if (book == null)
             {
                 throw new NotFoundException("This Book does not found");

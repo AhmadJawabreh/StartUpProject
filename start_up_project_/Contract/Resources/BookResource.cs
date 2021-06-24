@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Resources
 {
@@ -8,6 +9,10 @@ namespace Resources
         public long Id { get; set; }
 
         public string Name { get; set; }
+
+        public PublisherResource Publisher { get; set; }
+
+        public List<AuthorResource> AuthorResources{ get; set; }
 
         public DateTime ReleaseDate { get; set; }
 

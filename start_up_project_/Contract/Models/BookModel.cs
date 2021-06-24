@@ -16,6 +16,7 @@ namespace Models
         [Required(ErrorMessage = "Release Date is Required")]
         public DateTime ReleaseDate { get; set; }
 
+        [Required(ErrorMessage = "Please select a publisher")]
         public int PublisherId { get; set; }
 
         public List<int> AuthoIds { get; set; }

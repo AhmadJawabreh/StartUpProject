@@ -31,12 +31,15 @@ namespace BusinessLogic.Mappers
             bookResource.Id = book.Id;
             bookResource.Name = book.Name;
             bookResource.ReleaseDate = book.ReleaseDate;
+            bookResource.Publisher = book.Publisher != null ? PublisherMapper.ToResource(book.Publisher) : null;
+            bookResource.AuthorResources = book.Authors != null?  AuthorMapper.ToResources(book.Authors) : null;
             return bookResource;
         }
 
  
         public static Book ToEntity(Book book, BookModel bookModel)
         {
+            book.Id = bookModel.Id;
             book.Name = bookModel.Name;
             book.ReleaseDate = bookModel.ReleaseDate;
             book.PublisherId = bookModel.PublisherId;

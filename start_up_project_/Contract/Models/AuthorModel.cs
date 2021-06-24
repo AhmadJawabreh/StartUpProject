@@ -8,8 +8,8 @@ namespace Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "First Name is Required")]
-        [MaxLength(12, ErrorMessage = "First Name Is greater than 20")]
-        [MinLength(8, ErrorMessage = "First Name Is Less than 8")]
+        [MaxLength(25, ErrorMessage = "Name Is greater than 25")]
+        [MinLength(5, ErrorMessage = "Name Is Less than 8")]
         public string Name { get; set; }
 
 

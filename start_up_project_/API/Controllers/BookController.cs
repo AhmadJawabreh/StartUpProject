@@ -36,6 +36,13 @@ namespace API.Controllers
             return Ok(bookResource);
         }
 
+        [HttpGet("ExtraDetails/{Id}")]
+        public async Task<IActionResult> GetBookWithAuthorsAndPublisher([FromRoute] int Id)
+        {
+            BookResource bookResource = await _bookManager.GetBookWithAuthorsAndPublisher(Id);
+            return Ok(bookResource);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] BookModel bookModel)
         {
@@ -56,5 +63,7 @@ namespace API.Controllers
             await _bookManager.Delete(Id);
             return Ok();
         }
+
+
     }
 }

@@ -8,14 +8,14 @@ namespace Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "First Name is Required")]
-        [MaxLength(20, ErrorMessage = "Publisher Name should be less than 20.")]
-        [MinLength(5, ErrorMessage = "Publisher Name should be greater than 5.")]
+        [MaxLength(20, ErrorMessage = "First Name should be less than 20.")]
+        [MinLength(5, ErrorMessage = "First Name should be greater than 5.")]
         public string FirstName { get; set; }
 
 
         [Required(ErrorMessage = "Last Name is Required")]
-        [MaxLength(20, ErrorMessage = "Publisher Name should be less than 20.")]
-        [MinLength(5, ErrorMessage = "Publisher Name should be greater than 5.")]
+        [MaxLength(20, ErrorMessage = "Last Name should be less than 20.")]
+        [MinLength(5, ErrorMessage = "Last Name should be greater than 5.")]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "State Name is Required")]

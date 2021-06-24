@@ -41,7 +41,7 @@ namespace API
             }
             catch (Exception Error)
             {
-                   await HandleError(httpContext, Error, HttpStatusCode.InternalServerError);
+                await HandleError(httpContext, Error, HttpStatusCode.InternalServerError);
             }
         }
 

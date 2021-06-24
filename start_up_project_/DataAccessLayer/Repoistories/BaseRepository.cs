@@ -10,9 +10,9 @@ namespace Repoistories
 {
     public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        private readonly ApplicationDbContext _context;
+        protected readonly ApplicationDbContext _context;
 
-        private readonly DbSet<TEntity> dbSet;
+        protected readonly DbSet<TEntity> dbSet;
 
         public BaseRepository(ApplicationDbContext context)
         {

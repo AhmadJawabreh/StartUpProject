@@ -71,21 +71,12 @@
                 throw new DubplicateDataException("Book Name already exist");
 
 
-            Publisher publisher = _unitOfWork.Publishers.FirstOrDefalut(item => item.Id == bookModel?.PublisherId);
-            if (publisher == null)
-                throw new NotFoundException("Publisher does not exist ");
-
             // To DO:
             Filter filter = new Filter();
             filter.PageNumber = 1;
             filter.PageSize = 40;
-            List<Author> authors = _unitOfWork.Athuors.GetAll(filter);
-
-            if (bookModel.AuthoIds != null)
-            {
-                authors = authors.Where(item => bookModel.AuthoIds.Contains((int)item.Id)).ToList();
-            }
-            Book book = new Book() { Authors = authors };
+         
+            Book book = new Book();
             book = BookMapper.ToEntity(book, bookModel);
             await _unitOfWork.Books.Create(book);
             await this._unitOfWork.Save();
@@ -98,16 +89,11 @@
             if (book == null) throw new NotFoundException("This Book does not found");
 
 
-            Publisher publisher = _unitOfWork.Publishers.FirstOrDefalut(item => item.Id == bookModel?.PublisherId);
-            if (publisher == null) throw new NotFoundException("Publisher does not exist");
+
 
             Filter filter = new Filter() { PageNumber = 1, PageSize = 40 };
-            List<Author> authors = _unitOfWork.Athuors.GetAll(filter);
-            if (bookModel.AuthoIds != null)
-                authors = authors.Where(item => bookModel.AuthoIds.Contains((int)item.Id)).ToList();
+          
 
-
-            book.Authors = authors;
             book = BookMapper.ToEntity(book, bookModel);
             _unitOfWork.Books.Update(book);
             await this._unitOfWork.Save();

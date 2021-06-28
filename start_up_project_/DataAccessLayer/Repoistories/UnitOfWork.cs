@@ -10,7 +10,6 @@ namespace Repoistories
 
         public IRepository<Publisher> _publishers;
 
-        public IBookRepository _books;
 
         public IRepository<Author> _authors;
 
@@ -24,14 +23,6 @@ namespace Repoistories
             get
             {
                 return _publishers ?? (_publishers = new BaseRepository<Publisher>(_context));
-            }
-        }
-
-        public IBookRepository Books
-        {
-            get
-            {
-                return _books ?? (_books = new BookRepository(_context));
             }
         }
 

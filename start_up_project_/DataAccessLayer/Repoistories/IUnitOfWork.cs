@@ -7,7 +7,6 @@ namespace Repoistories
     {
         public IRepository<Publisher> Publishers { get; }
         public IRepository<Author> Athuors { get; }
-        public IBookRepository Books { get; }
         public Task Save();
     }
 }

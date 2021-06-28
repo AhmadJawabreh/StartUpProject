@@ -26,7 +26,6 @@ namespace API
             services.AddControllers();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthorManager, AuthorManager>();
-            services.AddScoped<IBookManager, BookManager>();
             services.AddScoped<IPublisherManager, PublisherManager>();
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer("Server=localhost;Database=start_up_project;Trusted_Connection=True;",

@@ -22,6 +22,5 @@ namespace Entities
         [Required(ErrorMessage = "Date of Birth is Required")]
         public DateTime DateOfBirth { get; set; }
 
-        public IEnumerable<Book> Books { get; set; }
     }
 }

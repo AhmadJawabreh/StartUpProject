@@ -71,8 +71,8 @@ namespace BusinessLogic
             Message message = new Message
             {
                 id = author.Id,
-                operation = OperationType.Create,
-                entity = DirtyEntityType.Author
+                operationType = OperationType.Create,
+                dirtyEntityType = DirtyEntityType.Author
             };
 
             this._sender.Send(message);
@@ -89,6 +89,14 @@ namespace BusinessLogic
             author = AuthorMapper.ToEntity(author, authorModel);
             _unitOfWork.Athuors.Update(author);
             await _unitOfWork.Save();
+            Message message = new Message
+            { 
+                id = author.Id,
+                operationType = OperationType.Create,
+                dirtyEntityType = DirtyEntityType.Author
+            };
+
+            this._sender.Send(message);
             return AuthorMapper.ToResource(author);
         }
 
@@ -99,6 +107,14 @@ namespace BusinessLogic
             {
                 throw new NotFoundException("This Author does not found.");
             }
+            Message message = new Message
+            {
+                id = author.Id,
+                operationType = OperationType.Delete,
+                dirtyEntityType = DirtyEntityType.Author
+            };
+
+            this._sender.Send(message);
             _unitOfWork.Athuors.Delete(author);
 
             await _unitOfWork.Save();

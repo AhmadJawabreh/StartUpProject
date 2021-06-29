@@ -1,6 +1,9 @@
 ﻿using BusinessLogic.Mappers;
 using Contract.Exceptions;
+using Contract.RabbitMQ;
+using Counsumer;
 using Entities;
+using ENUM;
 using Filters;
 using Models;
 using Repoistories;
@@ -23,10 +26,12 @@ namespace BusinessLogic
     public class AuthorManager : IAuthorManager
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ISender _sender;
 
-        public AuthorManager(IUnitOfWork unitOfWork)
+        public AuthorManager(IUnitOfWork unitOfWork, ISender sender)
         {
             this._unitOfWork = unitOfWork;
+            this._sender = sender;
         }
 
         public List<AuthorResource> GetAll(Filter filter)
@@ -62,6 +67,15 @@ namespace BusinessLogic
             author = AuthorMapper.ToEntity(author, authorModel);
             await _unitOfWork.Athuors.Create(author);
             await _unitOfWork.Save();
+
+            Message message = new Message
+            {
+                id = author.Id,
+                operation = OperationType.Create,
+                entity = DirtyEntityType.Author
+            };
+
+            this._sender.Send(message);
             return AuthorMapper.ToResource(author);
         }
 
@@ -86,6 +100,7 @@ namespace BusinessLogic
                 throw new NotFoundException("This Author does not found.");
             }
             _unitOfWork.Athuors.Delete(author);
+
             await _unitOfWork.Save();
         }
     }

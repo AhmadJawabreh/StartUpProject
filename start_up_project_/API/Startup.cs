@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using BusinessLogic;
 using Repoistories;
 using Data;
+using Counsumer;
 
 namespace API
 {
@@ -25,6 +26,7 @@ namespace API
         {
             services.AddControllers();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ISender, Sender>();
             services.AddScoped<IAuthorManager, AuthorManager>();
             services.AddScoped<IPublisherManager, PublisherManager>();
             services.AddDbContext<ApplicationDbContext>(options =>

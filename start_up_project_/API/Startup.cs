@@ -8,7 +8,7 @@ using Microsoft.OpenApi.Models;
 using BusinessLogic;
 using Repoistories;
 using Data;
-using Counsumer;
+using Producer;
 
 namespace API
 {

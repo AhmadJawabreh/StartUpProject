@@ -1,7 +1,7 @@
 ﻿using BusinessLogic.Mappers;
 using Contract.Exceptions;
 using Contract.RabbitMQ;
-using Counsumer;
+using Producer;
 using Entities;
 using ENUM;
 using Filters;

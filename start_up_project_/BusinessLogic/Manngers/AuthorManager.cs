@@ -92,7 +92,7 @@ namespace BusinessLogic
             Message message = new Message
             { 
                 id = author.Id,
-                operationType = OperationType.Create,
+                operationType = OperationType.Update,
                 dirtyEntityType = DirtyEntityType.Author
             };
 

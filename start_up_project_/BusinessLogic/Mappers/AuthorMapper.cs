@@ -7,8 +7,8 @@ namespace BusinessLogic.Mappers
 {
     class AuthorMapper
     {
-      
-        public static List<AuthorResource> ToResources(IEnumerable<Author> authors) 
+
+        public static List<AuthorResource> ToResources(IEnumerable<Author> authors)
         {
             List<AuthorResource> AuthorResourcess = new List<AuthorResource>();
 
@@ -40,7 +40,7 @@ namespace BusinessLogic.Mappers
         }
 
 
-        public static Author ToEntity(Author author, AuthorModel authorModel) 
+        public static Author ToEntity(Author author, AuthorModel authorModel)
         {
             author.Email = authorModel.Email;
             author.DateOfBirth = authorModel.DateOfBirth;

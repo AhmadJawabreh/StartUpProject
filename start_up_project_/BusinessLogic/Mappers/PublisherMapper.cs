@@ -1,33 +1,33 @@
-﻿using System.Collections.Generic;
-using Entities;
+﻿using Entities;
 using Models;
 using Resources;
+using System.Collections.Generic;
 
 namespace BusinessLogic.Mappers
 {
     class PublisherMapper
-    {    
-       
+    {
+
         public static List<PublisherResource> ToResources(IEnumerable<Publisher> publishers)
         {
             List<PublisherResource> publisherResources = new List<PublisherResource>();
             foreach (var item in publishers)
             {
                 publisherResources.Add(new PublisherResource
-                    {
-                        Id = item.Id,
-                        FirstName = item.FirstName,
-                        LastName = item.LastName,
-                        Email = item.Email,
-                        Address = item.Address,
-                        Phone = item.Phone
-                    }
+                {
+                    Id = item.Id,
+                    FirstName = item.FirstName,
+                    LastName = item.LastName,
+                    Email = item.Email,
+                    Address = item.Address,
+                    Phone = item.Phone
+                }
                 );
             }
             return publisherResources;
         }
 
-        public static PublisherResource ToResource(Publisher publisher) 
+        public static PublisherResource ToResource(Publisher publisher)
         {
             PublisherResource publisherResource = new PublisherResource();
             publisherResource.Id = publisher.Id;
@@ -39,7 +39,7 @@ namespace BusinessLogic.Mappers
             return publisherResource;
         }
 
-        public static Publisher ToEntity(Publisher publisher,PublisherModel publisherModel)
+        public static Publisher ToEntity(Publisher publisher, PublisherModel publisherModel)
         {
             publisher.FirstName = publisherModel.FirstName.Trim();
             publisher.LastName = publisherModel.LastName.Trim();

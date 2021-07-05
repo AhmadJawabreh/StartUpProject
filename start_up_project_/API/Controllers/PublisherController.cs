@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using BusinessLogic;
+﻿using BusinessLogic;
 using Filters;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Resources;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {

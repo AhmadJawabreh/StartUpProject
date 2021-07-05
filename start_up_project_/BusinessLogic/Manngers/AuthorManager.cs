@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using BusinessLogic.Mappers;
+﻿using BusinessLogic.Mappers;
 using Contract.Exceptions;
 using Contract.RabbitMQ;
 using Entities;
@@ -10,6 +8,8 @@ using Models;
 using Producer;
 using Repoistories;
 using Resources;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BusinessLogic
 {

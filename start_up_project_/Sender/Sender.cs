@@ -1,6 +1,6 @@
-﻿using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using RabbitMQ.Client;
+using System.Text;
 
 namespace Producer
 {

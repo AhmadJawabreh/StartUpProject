@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
-using System.Text;
 
 namespace Producer
 {
@@ -20,13 +20,14 @@ namespace Producer
 
         public Sender()
         {
-            this._connectionFactory = this.CreateConnection();
-            this._connection = this._connectionFactory.CreateConnection();
+            _connectionFactory = CreateConnection();
+
+            _connection = _connectionFactory.CreateConnection();
         }
 
         public void Send(object entity)
         {
-            IModel channel = this._connection.CreateModel();
+            IModel channel = _connection.CreateModel();
             string content = JsonConvert.SerializeObject(entity);
             var messageContent = Encoding.UTF8.GetBytes(content);
             channel.BasicPublish(exchange: string.Empty, routingKey: SenderConfiguration.BookQueue, basicProperties: null, body: messageContent);

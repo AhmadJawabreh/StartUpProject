@@ -1,37 +1,41 @@
-﻿using BusinessLogic.Mappers;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using BusinessLogic.Mappers;
 using Contract.Exceptions;
 using Contract.RabbitMQ;
-using Producer;
 using Entities;
 using ENUM;
 using Filters;
 using Models;
+using Producer;
 using Repoistories;
 using Resources;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace BusinessLogic
 {
-
     public interface IAuthorManager
     {
-        List<AuthorResource> GetAll(Filter filter);
-        Task<AuthorResource> GetByIdAsync(long id);
-        Task<AuthorResource> InsertAsync(AuthorModel authorModel);
-        Task<AuthorResource> UpdateAsync(AuthorModel authorModel);
-        Task DeleteAsync(long id);
+        public List<AuthorResource> GetAll(Filter filter);
+
+        public Task<AuthorResource> GetByIdAsync(long id);
+
+        public Task<AuthorResource> InsertAsync(AuthorModel authorModel);
+
+        public Task<AuthorResource> UpdateAsync(AuthorModel authorModel);
+
+        public Task DeleteAsync(long id);
     }
 
     public class AuthorManager : IAuthorManager
     {
         private readonly IUnitOfWork _unitOfWork;
+
         private readonly ISender _sender;
 
         public AuthorManager(IUnitOfWork unitOfWork, ISender sender)
         {
-            this._unitOfWork = unitOfWork;
-            this._sender = sender;
+            _unitOfWork = unitOfWork;
+            _sender = sender;
         }
 
         public List<AuthorResource> GetAll(Filter filter)
@@ -48,16 +52,18 @@ namespace BusinessLogic
             }
 
             List<Author> authors = _unitOfWork.Athuors.GetAll(filter);
+
             return AuthorMapper.ToResources(authors);
         }
 
-        public async Task<AuthorResource> GetByIdAsync(long Id)
+        public async Task<AuthorResource> GetByIdAsync(long id)
         {
-            Author author = await _unitOfWork.Athuors.GetById(Id);
+            Author author = await _unitOfWork.Athuors.GetById(id);
             if (author == null)
             {
                 throw new NotFoundException("This Author does not found.");
             }
+
             return AuthorMapper.ToResource(author);
         }
 
@@ -65,17 +71,20 @@ namespace BusinessLogic
         {
             Author author = new Author();
             author = AuthorMapper.ToEntity(author, authorModel);
+
             await _unitOfWork.Athuors.Create(author);
+
             await _unitOfWork.Save();
 
             Message message = new Message
             {
-                id = author.Id,
-                operationType = OperationType.Create,
-                dirtyEntityType = DirtyEntityType.Author
+                Id = author.Id,
+                OperationType = OperationType.Create,
+                DirtyEntityType = DirtyEntityType.Author
             };
 
-            this._sender.Send(message);
+            _sender.Send(message);
+
             return AuthorMapper.ToResource(author);
         }
 
@@ -86,17 +95,22 @@ namespace BusinessLogic
             {
                 throw new NotFoundException("This Author does not found.");
             }
+
             author = AuthorMapper.ToEntity(author, authorModel);
+
             _unitOfWork.Athuors.Update(author);
+
             await _unitOfWork.Save();
+
             Message message = new Message
-            { 
-                id = author.Id,
-                operationType = OperationType.Update,
-                dirtyEntityType = DirtyEntityType.Author
+            {
+                Id = author.Id,
+                OperationType = OperationType.Update,
+                DirtyEntityType = DirtyEntityType.Author
             };
 
-            this._sender.Send(message);
+            _sender.Send(message);
+
             return AuthorMapper.ToResource(author);
         }
 
@@ -107,14 +121,16 @@ namespace BusinessLogic
             {
                 throw new NotFoundException("This Author does not found.");
             }
+
             Message message = new Message
             {
-                id = author.Id,
-                operationType = OperationType.Delete,
-                dirtyEntityType = DirtyEntityType.Author
+                Id = author.Id,
+                OperationType = OperationType.Delete,
+                DirtyEntityType = DirtyEntityType.Author
             };
 
-            this._sender.Send(message);
+            _sender.Send(message);
+
             _unitOfWork.Athuors.Delete(author);
 
             await _unitOfWork.Save();

@@ -9,35 +9,32 @@ using Producer;
 using Repoistories;
 using Resources;
 using System.Collections.Generic;
-
 using System.Threading.Tasks;
 namespace BusinessLogic
 {
-
-
     public interface IPublisherManager
     {
-        List<PublisherResource> GetAll(Filter filter);
+        public List<PublisherResource> GetAll(Filter filter);
 
-        Task<PublisherResource> GetByIdAsync(long Id);
+        public Task<PublisherResource> GetByIdAsync(long id);
 
-        Task<PublisherResource> InsertAsync(PublisherModel publisherModel);
+        public Task<PublisherResource> InsertAsync(PublisherModel publisherModel);
 
-        Task<PublisherResource> UpdateAsync(PublisherModel publisherModel);
+        public Task<PublisherResource> UpdateAsync(PublisherModel publisherModel);
 
-        Task DeleteAsync(long Id);
+        public Task DeleteAsync(long id);
     }
 
     public class PublisherManager : IPublisherManager
     {
-        private readonly IUnitOfWork _UnitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         private readonly ISender _sender;
 
-        public PublisherManager(IUnitOfWork UnitOfWork, ISender sender)
+        public PublisherManager(IUnitOfWork unitOfWork, ISender sender)
         {
-            this._UnitOfWork = UnitOfWork;
-            this._sender = sender;
+            _unitOfWork = unitOfWork;
+            _sender = sender;
         }
 
         public List<PublisherResource> GetAll(Filter filter)
@@ -52,14 +49,14 @@ namespace BusinessLogic
                 throw new InvalidArgumentException("Page Size must be more than 10.");
             }
 
-            List<Publisher> publishers = _UnitOfWork.Publishers.GetAll(filter);
+            List<Publisher> publishers = _unitOfWork.Publishers.GetAll(filter);
             return PublisherMapper.ToResources(publishers);
         }
 
         public async Task<PublisherResource> GetByIdAsync(long Id)
         {
 
-            Publisher publisher = await _UnitOfWork.Publishers.GetById(Id);
+            Publisher publisher = await _unitOfWork.Publishers.GetById(Id);
             if (publisher == null)
             {
                 throw new NotFoundException("This publisher does not found");
@@ -77,36 +74,18 @@ namespace BusinessLogic
             }
 
             Publisher publisher = new Publisher();
-            publisher = PublisherMapper.ToEntity(publisher, publisherModel);
-            await _UnitOfWork.Publishers.Create(publisher);
-            await _UnitOfWork.Save();
-            Message message = new Message
-            {
-                id = publisher.Id,
-                operationType = OperationType.Create,
-                dirtyEntityType = DirtyEntityType.Publisher
-            };
 
-            this._sender.Send(message);
-            return PublisherMapper.ToResource(publisher);
-        }
-
-        public async Task<PublisherResource> UpdateAsync(PublisherModel publisherModel)
-        {
-            Publisher publisher = await _UnitOfWork.Publishers.GetById(publisherModel.Id);
-            if (publisher == null)
-            {
-                throw new NotFoundException("This Publisher does not found");
-            }
             publisher = PublisherMapper.ToEntity(publisher, publisherModel);
-            _UnitOfWork.Publishers.Update(publisher);
-            await _UnitOfWork.Save();
+
+            await _unitOfWork.Publishers.Create(publisher);
+
+            await _unitOfWork.Save();
 
             Message message = new Message
             {
-                id = publisher.Id,
-                operationType = OperationType.Update,
-                dirtyEntityType = DirtyEntityType.Publisher
+                Id = publisher.Id,
+                OperationType = OperationType.Create,
+                DirtyEntityType = DirtyEntityType.Publisher
             };
 
             this._sender.Send(message);
@@ -114,25 +93,52 @@ namespace BusinessLogic
             return PublisherMapper.ToResource(publisher);
         }
 
-        public async Task DeleteAsync(long Id)
+        public async Task<PublisherResource> UpdateAsync(PublisherModel publisherModel)
         {
-            Publisher publisher = await _UnitOfWork.Publishers.GetById(Id);
+            Publisher publisher = await _unitOfWork.Publishers.GetById(publisherModel.Id);
             if (publisher == null)
             {
                 throw new NotFoundException("This Publisher does not found");
             }
-            _UnitOfWork.Publishers.Delete(publisher);
+
+            publisher = PublisherMapper.ToEntity(publisher, publisherModel);
+
+            _unitOfWork.Publishers.Update(publisher);
+
+            await _unitOfWork.Save();
 
             Message message = new Message
             {
-                id = publisher.Id,
-                operationType = OperationType.Delete,
-                dirtyEntityType = DirtyEntityType.Publisher
+                Id = publisher.Id,
+                OperationType = OperationType.Update,
+                DirtyEntityType = DirtyEntityType.Publisher
             };
 
             this._sender.Send(message);
 
-            await _UnitOfWork.Save();
+            return PublisherMapper.ToResource(publisher);
+        }
+
+        public async Task DeleteAsync(long id)
+        {
+            Publisher publisher = await _unitOfWork.Publishers.GetById(id);
+            if (publisher == null)
+            {
+                throw new NotFoundException("This Publisher does not found");
+            }
+
+            _unitOfWork.Publishers.Delete(publisher);
+
+            Message message = new Message
+            {
+                Id = publisher.Id,
+                OperationType = OperationType.Delete,
+                DirtyEntityType = DirtyEntityType.Publisher
+            };
+
+            this._sender.Send(message);
+
+            await _unitOfWork.Save();
         }
     }
 }

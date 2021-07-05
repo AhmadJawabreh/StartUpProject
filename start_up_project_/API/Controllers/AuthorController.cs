@@ -1,17 +1,13 @@
-﻿using BusinessLogic;
-using Contract.Filters;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using BusinessLogic;
 using Filters;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Resources;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 
 namespace API.Controllers
 {
-
 
     [Route("Author")]
     [ApiController]
@@ -21,7 +17,7 @@ namespace API.Controllers
 
         public AuthorController(IAuthorManager authorManager)
         {
-            this._authorManager = authorManager;
+            _authorManager = authorManager;
         }
 
         [HttpGet]
@@ -31,10 +27,10 @@ namespace API.Controllers
             return Ok(authorResources);
         }
 
-        [HttpGet("{Id}")]
-        public async Task<IActionResult> DetailsAsync([FromRoute] long Id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> DetailsAsync([FromRoute] long id)
         {
-            AuthorResource author = await _authorManager.GetByIdAsync(Id);
+            AuthorResource author = await _authorManager.GetByIdAsync(id);
             return Ok(author);
         }
 
@@ -52,10 +48,10 @@ namespace API.Controllers
             return Ok(authorResource);
         }
 
-        [HttpDelete("{Id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute] long Id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute] long id)
         {
-            await _authorManager.DeleteAsync(Id);
+            await _authorManager.DeleteAsync(id);
             return Ok();
         }
     }

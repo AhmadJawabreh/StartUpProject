@@ -10,12 +10,11 @@ namespace Repoistories
 
         public IRepository<Publisher> _publishers;
 
-
         public IRepository<Author> _authors;
 
         public UnitOfWork(ApplicationDbContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         public IRepository<Publisher> Publishers

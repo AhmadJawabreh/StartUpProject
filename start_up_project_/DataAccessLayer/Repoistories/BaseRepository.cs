@@ -27,7 +27,10 @@ namespace Repoistories
 
         public virtual List<TEntity> GetAll(Filter filter)
         {
-            return _dbSet.Skip((filter.PageNumber - 1) * filter.PageSize).Take(filter.PageSize).ToList();
+            if (filter.PageNumber == null && filter.PageSize == null)
+                return _dbSet.ToList();
+
+            return _dbSet.Skip((int)((filter.PageNumber - 1) * filter.PageSize)).Take((int)filter.PageSize).ToList();
         }
 
         public async Task<TEntity> GetById(long id)

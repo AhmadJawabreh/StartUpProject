@@ -7,7 +7,7 @@ namespace Repoistories
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        public List<TEntity> GetAll(Filter filter);
+        public List<TEntity> GetAll(Filter? filter);
 
         public Task<TEntity> GetById(long id);
 

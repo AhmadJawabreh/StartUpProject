@@ -39,12 +39,12 @@ namespace BusinessLogic
 
         public List<PublisherResource> GetAll(Filter filter)
         {
-            if (filter.PageNumber <= 0)
+            if (filter?.PageNumber <= 0)
             {
                 throw new InvalidArgumentException("Page Number must be more than 0.");
             }
 
-            if (filter.PageSize <= 10)
+            if (filter?.PageSize <= 10)
             {
                 throw new InvalidArgumentException("Page Size must be more than 10.");
             }

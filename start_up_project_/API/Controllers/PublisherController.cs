@@ -45,7 +45,7 @@ namespace API.Controllers
         public async Task<IActionResult> Update([FromBody] PublisherModel publisherModel)
         {
             PublisherResource publisherResource = await _publisherManager.UpdateAsync(publisherModel);
-            return Ok(publisherResource);
+                return Ok(publisherResource);
         }
 
         [HttpDelete("{id}")]
